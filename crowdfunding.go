@@ -77,37 +77,30 @@ func daftar(daftarPengguna *tabPengguna, jumlahPengguna *int, penggunaMasuk *Pen
 }
 
 func verikasiEmail(daftarPengguna tabPengguna, jumlahPengguna int, email *string, allow *bool) {
-	var i, j int
-	var validDomain, emailExists bool
-	var domains [3]string
-
-	domains[0] = "@gmail.com"
-	domains[1] = "@yahoo.com"  
-	domains[2] = "@outlook.com"
+	var i, lenEmail int
+	var validDomain, emailExists, valid, validDot bool
 
 	if *allow {
 		fmt.Print("Email: ")
-		fmt.Scan(email)
+		fmt.Scan(&*email)
 	}
 
-	for *allow && (*email != "keluar") {
+	lenEmail = len(*email) - 1
+
+	valid = false
+	for *allow && !valid && (*email != "keluar") {
 		if len(*email) < 12 || len(*email) > 50 {
 			fmt.Println("Email harus memiliki panjang antara 12 hingga 50 karakter.")
 		} else {
 			validDomain = false
 
-			for i = 0; i < len(domains); i++ {
-				if len(*email) > len(domains[i]) {
-					validDomain = true
-					for j = 0; j < len(domains[i]); j++ {
-						if (*email)[len(*email) - len(domains[i])+j] != domains[i][j] {
-							validDomain = false
-						}
-					}
-				}
-			}
+			validDot = string((*email)[lenEmail]) == "m" && string((*email)[lenEmail-1]) == "o" && string((*email)[lenEmail-2]) == "c" && string((*email)[lenEmail-3]) == "."
 
-			if !validDomain {
+			validDomain = validDomain || string((*email)[lenEmail-4]) == "l" && string((*email)[lenEmail-5]) == "i" && string((*email)[lenEmail-6]) == "a" && string((*email)[lenEmail-7]) == "m" && string((*email)[lenEmail-8]) == "g" && string((*email)[lenEmail-9]) == "@"
+			validDomain = validDomain || string((*email)[lenEmail-4]) == "o" && string((*email)[lenEmail-5]) == "o" && string((*email)[lenEmail-6]) == "h" && string((*email)[lenEmail-7]) == "a" && string((*email)[lenEmail-8]) == "y" && string((*email)[lenEmail-9]) == "@"
+			validDomain = validDomain || string((*email)[lenEmail-4]) == "k" && string((*email)[lenEmail-5]) == "o" && string((*email)[lenEmail-6]) == "o" && string((*email)[lenEmail-7]) == "l" && string((*email)[lenEmail-8]) == "t" && string((*email)[lenEmail-9]) == "u" && string((*email)[lenEmail-10]) == "o" && string((*email)[lenEmail-11]) == "@"
+
+			if !validDomain || !validDot {
 				fmt.Println("Email harus mengandung '@gmail.com', '@yahoo.com' atau '@outlook.com'")
 			} else {
 				emailExists = false
@@ -117,18 +110,19 @@ func verikasiEmail(daftarPengguna tabPengguna, jumlahPengguna int, email *string
 						fmt.Println("Email sudah terdaftar!")
 					}
 				}
-				
+
 				if !emailExists {
-					*allow = false
-					return
+					valid = true
 				}
 			}
 		}
 
-		fmt.Print("Masukkan email yang valid: ")
-		fmt.Scan(email)
+		if !valid && *allow {
+			fmt.Print("Masukkan email yang valid: ")
+			fmt.Scan(&*email)
+		}
 	}
-	*allow = false
+	*allow = *allow && valid
 }
 
 func verikasiUsername(daftarPengguna tabPengguna, jumlahPengguna int, username *string, allow *bool) {
@@ -137,7 +131,7 @@ func verikasiUsername(daftarPengguna tabPengguna, jumlahPengguna int, username *
 
 	if *allow {
 		fmt.Print("Username: ")
-		fmt.Scan(username) 
+		fmt.Scan(&*username)
 	}
 
 	valid = false
@@ -159,7 +153,7 @@ func verikasiUsername(daftarPengguna tabPengguna, jumlahPengguna int, username *
 
 			if !valid {
 				fmt.Print("Masukkan username yang valid: ")
-				fmt.Scan(username)
+				fmt.Scan(&*username)
 			}
 		}
 	}
@@ -178,7 +172,7 @@ func verikasiPassword(pass *string, allow *bool) {
 		*allow = *pass != "keluar"
 		if *allow {
 			upper = false
-			lower = false 
+			lower = false
 			number = false
 			special = false
 
@@ -188,7 +182,7 @@ func verikasiPassword(pass *string, allow *bool) {
 						upper = true
 					}
 					if (*pass)[i] >= 'a' && (*pass)[i] <= 'z' {
-						lower = true  
+						lower = true
 					}
 					if (*pass)[i] >= '0' && (*pass)[i] <= '9' {
 						number = true
@@ -202,7 +196,7 @@ func verikasiPassword(pass *string, allow *bool) {
 			if len(*pass) < 8 || !upper || !lower || !number || !special {
 				fmt.Println("Password harus minimal 8 karakter dan mengandung:")
 				fmt.Println("- huruf besar")
-				fmt.Println("- huruf kecil") 
+				fmt.Println("- huruf kecil")
 				fmt.Println("- angka")
 				fmt.Println("- simbol (@,#,$,%,&)")
 				fmt.Print("Masukkan password yang valid: ")
@@ -215,22 +209,25 @@ func verikasiPassword(pass *string, allow *bool) {
 }
 
 func verikasiPeran(peran *string, allow *bool) {
+	var valid bool
+
 	if *allow {
 		fmt.Print("Peran (admin/donatur): ")
-		fmt.Scan(peran)
+		fmt.Scan(&*peran)
 	}
 
-	for *allow {
+	valid = false
+	for *allow && !valid {
 		if *peran == "keluar" {
 			*allow = false
-			return
+			valid = true
+		} else if *peran == "admin" || *peran == "donatur" {
+			valid = true
+		} else {
+			fmt.Println("Peran harus 'admin' atau 'donatur'.")
+			fmt.Print("Masukkan peran yang valid: ")
+			fmt.Scan(&*peran)
 		}
-		if *peran == "admin" || *peran == "donatur" {
-			return
-		}
-		fmt.Println("Peran harus 'admin' atau 'donatur'.")
-		fmt.Print("Masukkan peran yang valid: ")
-		fmt.Scan(peran)
 	}
 }
 
@@ -246,11 +243,11 @@ func masuk(daftarPengguna *tabPengguna, penggunaMasuk *Pengguna, jumlahPengguna 
 
 	loginValid = false
 	for i = 0; i < jumlahPengguna && !loginValid; i++ {
-		if (daftarPengguna[i].Email == user || daftarPengguna[i].Username == user) && 
-		   (daftarPengguna[i].Password == password) {
+		if (daftarPengguna[i].Email == user || daftarPengguna[i].Username == user) &&
+			(daftarPengguna[i].Password == password) {
 			*penggunaMasuk = daftarPengguna[i]
 			fmt.Printf("Selamat datang, %s!\n", penggunaMasuk.Username)
-			loginValid = true 
+			loginValid = true
 		}
 	}
 
@@ -267,39 +264,37 @@ func buatKampanye(daftarKampanye *tabKampanye, jumlahKampanye *int, penggunaMasu
 
 	if penggunaMasuk.Peran != "admin" {
 		fmt.Println("Hanya admin yang dapat membuat kampanye!")
-		return
-	}
-
-	if *jumlahKampanye >= maxKampanye {
+		fmt.Println()
+	} else if *jumlahKampanye >= maxKampanye {
 		fmt.Println("Jumlah kampanye sudah mencapai batas maksimum!")
-		return
+		fmt.Println()
+	} else {
+		fmt.Println("\n=== BUAT KAMPANYE BARU ===")
+		fmt.Print("Judul: ")
+		fmt.Scan(&judul)
+
+		fmt.Print("Kategori: ")
+		fmt.Scan(&kategori)
+
+		fmt.Println("Deskripsi: ")
+		fmt.Scan(&deskripsi)
+
+		fmt.Print("Target Dana (Rupiah): ")
+		fmt.Scan(&target)
+
+		daftarKampanye[*jumlahKampanye].Id = 100 + (*jumlahKampanye * 10)
+		daftarKampanye[*jumlahKampanye].Judul = judul
+		daftarKampanye[*jumlahKampanye].Kategori = kategori
+		daftarKampanye[*jumlahKampanye].Deskripsi = deskripsi
+		daftarKampanye[*jumlahKampanye].Target = target
+		daftarKampanye[*jumlahKampanye].Status = "aktif"
+
+		*jumlahKampanye = *jumlahKampanye + 1
+
+		fmt.Println()
+		fmt.Println("-  Kampanye berhasil dibuat!  -")
+		fmt.Println()
 	}
-
-	fmt.Println("\n=== BUAT KAMPANYE BARU ===") 
-	fmt.Print("Judul: ")
-	fmt.Scan(&judul)
-
-	fmt.Print("Kategori: ")
-	fmt.Scan(&kategori)
-
-	fmt.Println("Deskripsi: ")
-	fmt.Scan(&deskripsi)
-
-	fmt.Print("Target Dana (Rupiah): ")
-	fmt.Scan(&target)
-
-	daftarKampanye[*jumlahKampanye].Id = 100 + (*jumlahKampanye * 10)
-	daftarKampanye[*jumlahKampanye].Judul = judul
-	daftarKampanye[*jumlahKampanye].Kategori = kategori
-	daftarKampanye[*jumlahKampanye].Deskripsi = deskripsi  
-	daftarKampanye[*jumlahKampanye].Target = target
-	daftarKampanye[*jumlahKampanye].Status = "aktif"
-
-	*jumlahKampanye = *jumlahKampanye + 1
-
-	fmt.Println()
-	fmt.Println("-  Kampanye berhasil dibuat!  -")
-	fmt.Println()
 }
 
 func findJudulKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanJudul string) int {
@@ -402,7 +397,7 @@ func tampilkanKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 	if ascending == 1 {
 		sortSelectionAsc(&tempKampanye, jumlahKampanye)
 	} else {
-		sortSelectionDesc(&tempKampanye, jumlahKampanye) 
+		sortSelectionDesc(&tempKampanye, jumlahKampanye)
 	}
 
 	if jumlahKampanye == 0 {
@@ -413,9 +408,9 @@ func tampilkanKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 			k = tempKampanye[i]
 			progress = (k.Terkumpul * 100) / k.Target
 
-			fmt.Printf("[%d] %s\n", i, k.Judul)
+			fmt.Printf("[%d] %s\n", k.Id, k.Judul)
 			fmt.Printf("Status: %s\n", k.Status)
-			fmt.Printf("Kategori: %s\n", k.Kategori) 
+			fmt.Printf("Kategori: %s\n", k.Kategori)
 			fmt.Printf("Progress: %v%% [%s]\n", progress, createProgressBar(progress))
 			fmt.Println()
 		}
@@ -424,7 +419,7 @@ func tampilkanKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 
 func detailKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 	var pilihan, pilihanIdx, pilihanId int
-	var pilihanJudul, pilihanKategori,blank string 
+	var pilihanJudul, pilihanKategori, blank string
 	var tempKampanye tabKampanye
 
 	tempKampanye = *daftarKampanye
@@ -437,7 +432,7 @@ func detailKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 
 		fmt.Println("=           Pilih kampanye untuk melihat detail       =")
 		fmt.Println("1. ID Kampanye")
-		fmt.Println("2. Judul Kampanye") 
+		fmt.Println("2. Judul Kampanye")
 		fmt.Println("3. Kategori Kampanye")
 		fmt.Println("Kembali ke menu utama (0)")
 		fmt.Print("Pilih Kampanye untuk melihat detail (ketik Angka): ")
@@ -453,7 +448,7 @@ func detailKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 			pilihanIdx = findJudulKampanye(tempKampanye, jumlahKampanye, pilihanJudul)
 		} else if pilihan == 3 {
 			fmt.Print("Ketik Kategori Kampanye: ")
-			fmt.Scan(&pilihanKategori) 
+			fmt.Scan(&pilihanKategori)
 			pilihanIdx = findKategoriKampanye(tempKampanye, jumlahKampanye, pilihanKategori)
 		} else if pilihan == 0 {
 			fmt.Println("    Kembali ke menu utama")
@@ -504,61 +499,59 @@ func tambahDonasi(daftarKampanye *tabKampanye, daftarDonasi *tabDonasi, pengguna
 
 	if penggunaMasuk.Peran == "" {
 		fmt.Println("    Silakan masuk terlebih dahulu!")
-		return
-	}
-
-	if *jumlahDonasi >= maxDonasi {
+		fmt.Println()
+	} else if *jumlahDonasi >= maxDonasi {
 		fmt.Println("    Jumlah donasi sudah mencapai batas maksimum!")
-		return
-	}
-
-	if jumlahKampanye == 0 {
+		fmt.Println()
+	} else if jumlahKampanye == 0 {
 		fmt.Println("    Belum ada kampanye yang dibuat!")
-		return
-	}
+		fmt.Println()
+	} else {
+		fmt.Println("===   DONASI KAMPANYE   ===")
+		tampilkanKampanye(daftarKampanye, jumlahKampanye)
 
-	fmt.Println("===   DONASI KAMPANYE   ===")
-	tampilkanKampanye(daftarKampanye, jumlahKampanye)
+		if jumlahKampanye > 0 {
+			fmt.Print("ID Kampanye: ")
+			fmt.Scan(&kampanyeId)
 
-	if jumlahKampanye > 0 {
-		fmt.Print("ID Kampanye: ")
-		fmt.Scan(&kampanyeId)
+			if checkKampanyeAktif(daftarKampanye, jumlahKampanye, kampanyeId) {
+				fmt.Print("Jumlah Donasi: ")
+				fmt.Scan(&jumlah)
 
-		if checkKampanyeAktif(daftarKampanye, jumlahKampanye, kampanyeId) {
-			fmt.Print("Jumlah Donasi: ")
-			fmt.Scan(&jumlah)
 
-			daftarDonasi[*jumlahDonasi].KampanyeId = kampanyeId
-			daftarDonasi[*jumlahDonasi].NamaDonatur = penggunaMasuk.Username
-			daftarDonasi[*jumlahDonasi].Jumlah = jumlah
-
-			for i = 0; i < *jumlahDonasi; i++ {
-				if daftarDonasi[i].KampanyeId == kampanyeId {
-					idx = i
+				for i = 0; i < *jumlahDonasi; i++ {
+					if daftarDonasi[i].KampanyeId == kampanyeId {
+						idx = i
+					}
 				}
+
+				totalDonasi = daftarKampanye[idx].Terkumpul + jumlah
+
+				if totalDonasi > daftarKampanye[idx].Target {
+					fmt.Printf("Jumlah donasi melebihi target kampanye!, Donasi dikembalikan sebesar Rp %d\n", totalDonasi - daftarKampanye[idx].Target)
+					totalDonasi = daftarKampanye[idx].Target
+					jumlah = daftarKampanye[idx].Target
+				}
+
+				daftarKampanye[idx].Terkumpul = totalDonasi
+				daftarKampanye[idx].Progress = (totalDonasi * 100) / daftarKampanye[idx].Target
+
+				if daftarKampanye[idx].Progress >= 100 {
+					daftarKampanye[idx].Status = "selesai"
+					daftarKampanye[idx].Progress = 100
+					fmt.Printf("=     Kampanye telah selesai, terkumpul Rp %d dari target Rp %d     =\n", daftarKampanye[idx].Terkumpul, daftarKampanye[idx].Target)
+				}
+
+				daftarDonasi[*jumlahDonasi].KampanyeId = kampanyeId
+				daftarDonasi[*jumlahDonasi].NamaDonatur = penggunaMasuk.Username
+				daftarDonasi[*jumlahDonasi].Jumlah = jumlah
+
+				*jumlahDonasi = *jumlahDonasi + 1
+				fmt.Println()
+				fmt.Println("Donasi berhasil! Terima kasih.")
+			} else {
+				fmt.Println("Kampanye tidak valid atau tidak aktif!")
 			}
-
-			totalDonasi = daftarKampanye[idx].Terkumpul + jumlah
-
-			if totalDonasi > daftarKampanye[idx].Target {
-				fmt.Printf("Jumlah donasi melebihi target kampanye!, Donasi dikembalikan sebesar Rp %d\n", totalDonasi)
-				totalDonasi = daftarKampanye[idx].Target
-			}
-
-			daftarKampanye[idx].Terkumpul = totalDonasi
-			daftarKampanye[idx].Progress = (totalDonasi * 100) / daftarKampanye[idx].Target
-
-			if daftarKampanye[idx].Progress >= 100 {
-				daftarKampanye[idx].Status = "selesai"
-				daftarKampanye[idx].Progress = 100
-				fmt.Printf("=     Kampanye telah selesai, terkumpul Rp %d dari target Rp %d     =\n", daftarKampanye[idx].Terkumpul, daftarKampanye[idx].Target)
-			}
-
-			*jumlahDonasi = *jumlahDonasi + 1
-			fmt.Println()
-			fmt.Println("Donasi berhasil! Terima kasih.")
-		} else {
-			fmt.Println("Kampanye tidak valid atau tidak aktif!")
 		}
 	}
 	fmt.Println()
@@ -665,6 +658,13 @@ func findIdDonasi(daftarDonasi tabDonasi, jumlahDonasi int, pilihanId int, maxId
 	var arrDonasi tabDonasi
 
 	idxArr = 0
+
+	if maxIdx > maxDonasi {
+		maxIdx = maxDonasi
+	} else if maxIdx <= 0 {
+		maxIdx = 5
+	}
+
 	for i = 0; i < jumlahDonasi; i++ {
 		if daftarDonasi[i].KampanyeId == pilihanId && idxArr < maxIdx {
 			arrDonasi[idxArr] = daftarDonasi[i]
@@ -703,7 +703,7 @@ func tampilNamaDonatur(daftarKampanye tabKampanye, jumlahKampanye int, arrKampan
 		for j = 0; j < len(arrKampanye); j++ {
 			if arrKampanye[j].KampanyeId == daftarKampanye[i].Id && printed {
 				fmt.Printf("ID Kampanye: %d\n", daftarKampanye[i].Id)
-				fmt.Printf("Judul: %s\n", daftarKampanye[i].Judul) 
+				fmt.Printf("Judul: %s\n", daftarKampanye[i].Judul)
 				fmt.Printf("Kategori: %s\n", daftarKampanye[i].Kategori)
 				fmt.Printf("Deskripsi: \n%s\n", daftarKampanye[i].Deskripsi)
 				fmt.Printf("Target Dana: Rp %d\n", daftarKampanye[i].Target)
@@ -723,7 +723,7 @@ func tampilKampanyeDonatur(daftarDonasi tabDonasi, jumlahDonasi int) {
 	insertionSortDesc(&daftarDonasi, jumlahDonasi)
 
 	for i = 0; i < jumlahDonasi; i++ {
-		fmt.Printf("Nama Donatur: %s\n", daftarDonasi[i].NamaDonatur) 
+		fmt.Printf("Nama Donatur: %s\n", daftarDonasi[i].NamaDonatur)
 		fmt.Printf("Jumlah Donasi: Rp %d\n", daftarDonasi[i].Jumlah)
 		fmt.Println()
 	}
@@ -744,7 +744,7 @@ func tampilkanDonasi(daftarDonasi *tabDonasi, jumlahDonasi int, daftarKampanye t
 	} else {
 		insertionSortDesc(&tempDaftarDonasi, jumlahDonasi)
 		fmt.Println("      === CATATAN DONASI ===")
-		
+
 		for i = 0; i < jumlahDonasi; i++ {
 			k = tempDaftarDonasi[i]
 			fmt.Printf("Kampanye ID: %d\n", k.KampanyeId)
@@ -793,8 +793,10 @@ func tampilkanDonasi(daftarDonasi *tabDonasi, jumlahDonasi int, daftarKampanye t
 
 			detailDonatur = findIdDonasi(tempDaftarDonasi, jumlahDonasi, pilihanId, pilihanMaxIdx)
 			if len(detailDonatur) > 0 {
-				fmt.Printf("Detail Donasi untuk Kampanye ID %d:\n", pilihanId)
+				fmt.Println()
+				fmt.Printf("=   Detail Donasi untuk Kampanye ID %d:   =", pilihanId)
 				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(detailDonatur, jumlahDonasi, string(pilihanId)))
+				fmt.Println()
 				tampilKampanyeDonatur(detailDonatur, jumlahDonasi)
 			}
 		}
@@ -806,26 +808,30 @@ func menuUtama(penggunaMasuk Pengguna) int {
 	var pilihan int
 
 	fmt.Println("     ==== SISTEM CROWDFUNDING ====    ")
-	
+
 	if penggunaMasuk.Peran != "" {
 		fmt.Printf("Selamat datang, %s (%s)\n", penggunaMasuk.Username, penggunaMasuk.Peran)
 	} else {
 		fmt.Println("Daftar (1)")
 		fmt.Println("Masuk (2)")
 	}
-	
+
 	fmt.Println("Lihat Donasi (3)")
-	fmt.Println("Lihat Kampanye (4)") 
+	fmt.Println("Lihat Kampanye (4)")
 	fmt.Println("Berdonasi (5)")
 
 	if penggunaMasuk.Peran == "admin" {
 		fmt.Println("Buat Kampanye (6)")
 	}
-	
+
 	if penggunaMasuk.Peran != "" {
 		fmt.Println("Log Out (7)")
 	}
-	
+
+	if penggunaMasuk.Peran == "admin" {
+		fmt.Println("Prediksi Pencapaian Target (8)")
+	}
+
 	fmt.Println("Ketik '-1' untuk keluar")
 	fmt.Print("Pilih menu (ketik angka tersebut): ")
 	fmt.Scan(&pilihan)
@@ -852,6 +858,7 @@ func prediksiPencapaianTarget(daftarKampanye tabKampanye, daftarDonasi tabDonasi
 	fmt.Println("   === PREDIKSI PENCAPAIAN TARGET ===")
 
 	for i = 0; i < jumlahKampanye; i++ {
+
 		if daftarKampanye[i].Status == "aktif" {
 			totalDonasi = 0
 			jumlahTransaksi = 0
@@ -871,7 +878,7 @@ func prediksiPencapaianTarget(daftarKampanye tabKampanye, daftarDonasi tabDonasi
 				fmt.Printf("Kampanye: %s\n", daftarKampanye[i].Judul)
 				fmt.Printf("Sisa target: Rp %d\n", sisaTarget)
 				fmt.Printf("Rata-rata donasi: Rp %.2f\n", rataRataDonasi)
-				fmt.Printf("Estimasi jumlah transaksi untuk mencapai target: %.0f\n\n", estimasiTransaksi)
+				fmt.Printf("Estimasi jumlah transaksi untuk mencapai target: %.0f Transaksi\n\n", estimasiTransaksi)
 			}
 		}
 	}
@@ -880,24 +887,24 @@ func prediksiPencapaianTarget(daftarKampanye tabKampanye, daftarDonasi tabDonasi
 
 func main() {
 	var pilihan int
-	var jumlahPengguna, jumlahKampanye, jumlahDonasi int 
+	var jumlahPengguna, jumlahKampanye, jumlahDonasi int
 	var daftarPengguna tabPengguna
 	var daftarKampanye tabKampanye
-	var daftarDonasi tabDonasi 
+	var daftarDonasi tabDonasi
 	var penggunaMasuk Pengguna
 
 	daftarPengguna[0] = Pengguna{
-		Email: "ammar@gmail.com",
-		Username: "ammar", 
+		Email:    "ammar@gmail.com",
+		Username: "ammar",
 		Password: "Ammar1234@",
-		Peran: "admin",
+		Peran:    "admin",
 	}
 
 	daftarPengguna[1] = Pengguna{
-		Email: "ghifari@yahoo.com",
+		Email:    "ghifari@yahoo.com",
 		Username: "ghifari",
-		Password: "Ghifari1234@", 
-		Peran: "donatur",
+		Password: "Ghifari1234@",
+		Peran:    "donatur",
 	}
 
 	jumlahPengguna = 2
@@ -916,7 +923,7 @@ func main() {
 
 		if pilihan == 2 {
 			if penggunaMasuk.Peran == "" {
-				masuk(&daftarPengguna, &penggunaMasuk, jumlahPengguna) 
+				masuk(&daftarPengguna, &penggunaMasuk, jumlahPengguna)
 			} else {
 				fmt.Println("    Anda sudah masuk sebagai", penggunaMasuk.Peran, "!")
 				fmt.Println()
@@ -940,7 +947,7 @@ func main() {
 				buatKampanye(&daftarKampanye, &jumlahKampanye, &penggunaMasuk)
 			} else {
 				fmt.Println("    Hanya admin yang dapat membuat kampanye!")
-				fmt.Println()  
+				fmt.Println()
 			}
 		}
 
@@ -953,10 +960,13 @@ func main() {
 			}
 		}
 
-		if pilihan == 8 && penggunaMasuk.Peran == "admin" && jumlahKampanye > 0 && jumlahDonasi > 0{
+		if pilihan == 8 && penggunaMasuk.Peran == "admin" && jumlahKampanye > 0 && jumlahDonasi > 0 {
 			prediksiPencapaianTarget(daftarKampanye, daftarDonasi, jumlahKampanye, jumlahDonasi)
 		} else if pilihan == 8 && penggunaMasuk.Peran != "admin" {
 			fmt.Println("   Hanya admin yang dapat mengakses fitur ini!")
+			fmt.Println()
+		} else if pilihan == 8 && (jumlahKampanye == 0 || jumlahDonasi == 0) {
+			fmt.Println("   Tidak ada kampanye atau donasi yang tersedia untuk prediksi!")
 			fmt.Println()
 		}
 
@@ -964,11 +974,11 @@ func main() {
 			fmt.Println("============================================")
 			fmt.Println("   Terima kasih telah menggunakan aplikasi  ")
 			fmt.Println("            SISTEM CROWDFUNDING             ")
-			fmt.Println("     Semoga hari-hari KAMUUU menyenangkan WELLL!    ")
+			fmt.Println("  Semoga hari-hari KAMUUU menyenangkan WELLL!    ")
 			fmt.Println("============================================")
 		}
 
-		if pilihan != 1 && pilihan != 2 && pilihan != 3 && pilihan != 4 && pilihan != 5 && pilihan != 6 && pilihan != 7 && pilihan != -1 {
+		if !(pilihan >= 1 && pilihan <= 8) && pilihan != -1 {
 			fmt.Println("Pilihan tidak valid!")
 		}
 	}
