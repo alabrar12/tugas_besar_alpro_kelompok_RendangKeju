@@ -2,11 +2,11 @@
 
 Program sederhana untuk mengelola kampanye crowdfunding yang dibuat menggunakan bahasa Go.
 
-## Apa itu Program Ini?
+## Apa itu Program Crowdfunding?
 
-Program ini adalah sistem crowdfunding dimana:
-- **Admin** bisa membuat kampanye untuk mengumpulkan dana
-- **Donatur** bisa memberikan donasi ke kampanye yang ada
+Program ini adalah sistem crowdfunding:
+- Seorang **Admin** bisa membuat kampanye untuk mengumpulkan dana
+- Seorang **Donatur** bisa memberikan donasi ke kampanye yang ada
 - Semua orang bisa melihat daftar kampanye dan donasi
 
 ## Cara Menjalankan Program
