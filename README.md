@@ -95,11 +95,11 @@ type Donasi struct {
 5. **Berdonasi** - Melakukan donasi ke kampanye
 6. **Buat Kampanye** - Membuat kampanye baru (admin only)
 7. **Log Out** - Keluar dari sistem
-8. **Prediksi Pencapaian Target** - Analytics untuk admin
+8. **Prediksi Pencapaian Target** - Analytics untuk keperluan admin
 
 ### Fitur Pencarian
 - **ID Kampanye**: Pencarian cepat dengan binary search
-- **Judul Kampanye**: Fuzzy matching untuk fleksibilitas
+- **Judul Kampanye**: Mencocokan setiap kata pada judul kampanye untuk fleksibilitas
 - **Kategori**: Pencarian exact match berdasarkan kategori
 
 ## 🔍 Fitur Analytics
