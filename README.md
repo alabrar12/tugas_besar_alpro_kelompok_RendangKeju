@@ -26,9 +26,19 @@ Aplikasi sistem crowdfunding sederhana yang dibangun menggunakan bahasa pemrogra
 - **Sorting & Filtering**: Multiple opsi sorting untuk kampanye dan donasi
 - **Progress Visualization**: Progress bar ASCII untuk visualisasi pencapaian target
 
+
+## 🚦 Cara Menjalankan
+
+1. Pastikan Go terinstall di sistem
+2. Clone repository
+3. Jalankan program:
+```bash
+go run crowdfunding.go
+```
+
 ## 🏗️ Struktur Data
 
-### Core Entities
+### Tipe Bentukan (Struct)
 ```go
 type Pengguna struct {
     Email    string
@@ -64,8 +74,7 @@ type Donasi struct {
 
 ### Algoritma Pencarian
 - **Binary Search**: Implementasi pada pencarian ID kampanye (fungsi `findIdKampanye`)
-- **Fuzzy Matching**: Pencarian judul kampanye dengan character matching (fungsi `findJudulKampanye`)
-- **Linear Search**: Pencarian berdasarkan kategori dan nama donatur
+- **Sequential Search**: Pencarian berdasarkan kategori dan nama donatur
 
 ### Algoritma Sorting
 - **Selection Sort**: Untuk sorting kampanye berdasarkan progress (ascending/descending)
@@ -125,20 +134,6 @@ Sistem dilengkapi dengan 2 akun default untuk testing:
 - **Admin**: ammar@gmail.com / ammar (Password: Ammar1234@)
 - **Donatur**: ghifari@yahoo.com / ghifari (Password: Ghifari1234@)
 
-### Memory Management
-- Menggunakan fixed-size arrays untuk penyimpanan data
-- No dynamic memory allocation
-- Data disimpan dalam memory selama runtime
-
-## 🚦 Cara Menjalankan
-
-1. Pastikan Go terinstall di sistem
-2. Clone repository
-3. Jalankan program:
-```bash
-go run crowdfunding.go
-```
-
 ## 🔐 Security Features
 
 - **Input Validation**: Validasi komprehensif untuk semua input user
@@ -146,29 +141,12 @@ go run crowdfunding.go
 - **Password Requirements**: Enforcement password yang kuat
 - **Duplicate Prevention**: Pencegahan data duplikat
 
-## 🎯 Target Audience
-
-Aplikasi ini cocok untuk:
-- Learning purposes untuk memahami struktur data dan algoritma
-- Prototype sistem crowdfunding sederhana
-- Demonstrasi implementasi CRUD operations dalam Go
-- Contoh implementasi role-based access control
-
 ## 📋 Limitations
 
 - Data tidak persisten (hilang setelah program ditutup)
-- Fixed maximum capacity untuk setiap entitas
 - Command-line interface only
 - Bahasa Indonesia only untuk UI
 
-## 🤝 Contributing
-
-Feel free untuk berkontribusi dengan:
-- Bug fixes
-- Feature enhancements
-- Code optimization
-- Documentation improvements
-
 ---
 
-*Dibuat untuk keperluan pembelajaran dan demonstrasi konsep sistem crowdfunding sederhana.*
+*Dibuat untuk keperluan Tugas Besar Algoritma Pemrograman*
