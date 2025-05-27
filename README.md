@@ -12,7 +12,7 @@ Aplikasi sistem crowdfunding sederhana yang dibangun menggunakan bahasa pemrogra
 
 ### Manajemen Kampanye
 - **Pembuatan Kampanye**: Hanya admin yang dapat membuat kampanye baru
-- **Pencarian Kampanye**: Fitur pencarian berdasarkan ID, judul (fuzzy matching), atau kategori
+- **Pencarian Kampanye**: Fitur pencarian berdasarkan ID, judul, atau kategori
 - **Detail Kampanye**: Tampilan detail lengkap dengan progress bar visual
 - **Status Tracking**: Otomatis mengubah status kampanye menjadi "selesai" ketika target tercapai
 
