@@ -18,7 +18,7 @@ Aplikasi sistem crowdfunding sederhana yang dibangun menggunakan bahasa pemrogra
 
 ### Sistem Donasi
 - **Donasi Real-time**: Pengguna dapat berdonasi ke kampanye aktif
-- **Overflow Protection**: Sistem mengembalikan kelebihan donasi jika melebihi target
+- **Proteksi Donasi Berlebihan**: Sistem mengembalikan kelebihan donasi jika melebihi target
 - **Tracking Donatur**: Pencatatan lengkap semua donasi dengan nama donatur
 
 ### Analytics & Reporting
