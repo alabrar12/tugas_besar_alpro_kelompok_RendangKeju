@@ -314,9 +314,9 @@ func findJudulKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanJu
 		} else {
 			for j = 0; j < len(judulKampanye); j++ {
 				if containsChar(pilihanJudul, judulKampanye[j]) {
-				matchCount = matchCount + 1
+					matchCount = matchCount + 1
+				}
 			}
-		}
 			if matchCount > bestMatch {
 				bestMatch = matchCount
 				bestIdx = i
@@ -430,21 +430,32 @@ func detailKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 			fmt.Print("Ketik ID Kampanye: ")
 			fmt.Scan(&pilihanId)
 			pilihanIdx = findIdKampanye(tempKampanye, jumlahKampanye, pilihanId)
+			if pilihanIdx != -1 {
+				tampilkanDetailKampanye(tempKampanye[pilihanIdx])
+			} else {
+				fmt.Println("Kampanye dengan ID tersebut tidak ditemukan!")
+			}
 		} else if pilihan == 2 {
 			fmt.Print("Ketik Judul Kampanye: ")
 			fmt.Scan(&pilihanJudul)
 			pilihanIdx = findJudulKampanye(tempKampanye, jumlahKampanye, pilihanJudul)
+			if pilihanIdx != -1 {
+				tampilkanDetailKampanye(tempKampanye[pilihanIdx])
+			} else {
+				fmt.Println("Kampanye dengan judul tersebut tidak ditemukan!")
+			}
 		} else if pilihan == 0 {
 			fmt.Println("    Kembali ke menu utama")
+			return
 		} else {
 			fmt.Println("Pilihan tidak valid!")
 		}
 
-		if pilihan >= 1 && pilihan <= 3 {
-			tampilkanDetailKampanye(tempKampanye[pilihanIdx])
+		if pilihan == 1 || pilihan == 2 {
+			fmt.Print("Tekan Enter untuk kembali ke menu utama...")
+			fmt.Scan(&blank)
 		}
 	}
-	fmt.Scanln(&blank)
 }
 
 func createProgressBar(percent int) string {
@@ -663,7 +674,7 @@ func findJudul(daftarKampanye tabKampanye, jumlahKampanye int, pilihanId int) st
 			return daftarKampanye[i].Judul
 		}
 	}
-	return "" 
+	return ""
 }
 
 func totalDonasiDonatur(daftarDonasi tabDonasi, jumlahDonasi int, pilihanNama string) int {
@@ -707,7 +718,7 @@ func tampilNamaDonatur(daftarKampanye tabKampanye, jumlahKampanye int, arrKampan
 	fmt.Scan(&blank)
 }
 
-func tampilKampanyeDonatur(daftarDonasi tabDonasi, jumlahDonasi int, daftarKampanye tabKampanye, jumlahKampanye int,pilihanId int) {
+func tampilKampanyeDonatur(daftarDonasi tabDonasi, jumlahDonasi int, daftarKampanye tabKampanye, jumlahKampanye int, pilihanId int) {
 	var i int
 	var blank string
 
@@ -774,9 +785,10 @@ func tampilkanDonasi(daftarDonasi *tabDonasi, jumlahDonasi int, daftarKampanye t
 
 			detailDonatur = findNamaDonasi(tempDaftarDonasi, jumlahDonasi, pilihanNama)
 			if len(detailDonatur) > 0 {
-				// fmt.Printf("Detail Donasi (%v):\n", pilihanNama)
+
 				fmt.Println()
 				tampilNamaDonatur(daftarKampanye, jumlahKampanye, detailDonatur)
+				fmt.Println("=   Detail Donasi untuk Donatur: ", pilihanNama, "   =")
 				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(tempDaftarDonasi, jumlahDonasi, pilihanNama))
 			}
 		}
@@ -792,7 +804,7 @@ func tampilkanDonasi(daftarDonasi *tabDonasi, jumlahDonasi int, daftarKampanye t
 				fmt.Println()
 				fmt.Printf("=   Detail Donasi untuk Kampanye ID %d:   =\n", pilihanId)
 				tampilKampanyeDonatur(detailDonatur, jumlahDonasi, daftarKampanye, jumlahKampanye, pilihanId)
-				fmt.Println()
+				fmt.Println("=   Detail Donasi untuk Kampanye ID: ", pilihanId, "   =")
 				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(detailDonatur, jumlahDonasi, string(pilihanId)))
 			}
 		}
@@ -883,7 +895,7 @@ func prediksiPencapaianTarget(daftarKampanye tabKampanye, daftarDonasi tabDonasi
 }
 
 func dummyDataKampanye(daftarKampanye *tabKampanye, jumlahKampanye *int) {
-	
+
 	daftarKampanye[0].Id = 100
 	daftarKampanye[0].Judul = "Bantuan_Pendidikan_Anak_Yatim"
 	daftarKampanye[0].Kategori = "Pendidikan"
@@ -1117,9 +1129,7 @@ func main() {
 			fmt.Println("            SISTEM CROWDFUNDING             ")
 			fmt.Println("  Semoga hari-hari KAMUUU menyenangkan WELLL!    ")
 			fmt.Println("============================================")
-		}
-
-		if !(pilihan >= 1 && pilihan <= 8) && pilihan != -1 {
+		} else if pilihan < 1 || pilihan > 8 {
 			fmt.Println("Pilihan tidak valid!")
 		}
 	}
