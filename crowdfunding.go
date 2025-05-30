@@ -254,8 +254,8 @@ func masuk(daftarPengguna *tabPengguna, penggunaMasuk *Pengguna, jumlahPengguna 
 	if !loginValid {
 		fmt.Println()
 		fmt.Println("   Email/Username atau Password salah!")
-		fmt.Println()
 	}
+	fmt.Println()
 }
 
 func buatKampanye(daftarKampanye *tabKampanye, jumlahKampanye *int, penggunaMasuk *Pengguna) {
@@ -309,16 +309,18 @@ func findJudulKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanJu
 		var matchCount int
 		matchCount = 0
 		judulKampanye = daftarKampanye[i].Judul
-
-		for j = 0; j < len(judulKampanye); j++ {
-			if containsChar(pilihanJudul, judulKampanye[j]) {
+		if judulKampanye == pilihanJudul {
+			return i
+		} else {
+			for j = 0; j < len(judulKampanye); j++ {
+				if containsChar(pilihanJudul, judulKampanye[j]) {
 				matchCount = matchCount + 1
 			}
 		}
-
-		if matchCount > bestMatch {
-			bestMatch = matchCount
-			bestIdx = i
+			if matchCount > bestMatch {
+				bestMatch = matchCount
+				bestIdx = i
+			}
 		}
 	}
 	return bestIdx
@@ -335,17 +337,6 @@ func containsChar(s string, c byte) bool {
 		}
 	}
 	return result
-}
-
-func findKategoriKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanKategori string) int {
-	var i int
-
-	for i = 0; i < jumlahKampanye; i++ {
-		if daftarKampanye[i].Kategori == pilihanKategori {
-			return i
-		}
-	}
-	return -1
 }
 
 func findIdKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanId int) int {
@@ -371,7 +362,6 @@ func findIdKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanId in
 }
 
 func tampilkanDetailKampanye(kampanye Kampanye) {
-	var blank string
 
 	fmt.Println("\n=== DETAIL KAMPANYE ===")
 	fmt.Printf("Judul: %s\n", kampanye.Judul)
@@ -381,7 +371,6 @@ func tampilkanDetailKampanye(kampanye Kampanye) {
 	fmt.Printf("Terkumpul: Rp %d\n", kampanye.Terkumpul)
 	fmt.Printf("Status: %s\n", kampanye.Status)
 	fmt.Printf("Progress: %d%% [%s]\n", kampanye.Progress, createProgressBar(kampanye.Progress))
-	fmt.Scan(&blank)
 }
 
 func tampilkanKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
@@ -419,7 +408,7 @@ func tampilkanKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 
 func detailKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 	var pilihan, pilihanIdx, pilihanId int
-	var pilihanJudul, pilihanKategori, blank string
+	var pilihanJudul, blank string
 	var tempKampanye tabKampanye
 
 	tempKampanye = *daftarKampanye
@@ -433,7 +422,6 @@ func detailKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 		fmt.Println("=           Pilih kampanye untuk melihat detail       =")
 		fmt.Println("1. ID Kampanye")
 		fmt.Println("2. Judul Kampanye")
-		fmt.Println("3. Kategori Kampanye")
 		fmt.Println("Kembali ke menu utama (0)")
 		fmt.Print("Pilih Kampanye untuk melihat detail (ketik Angka): ")
 		fmt.Scan(&pilihan)
@@ -446,10 +434,6 @@ func detailKampanye(daftarKampanye *tabKampanye, jumlahKampanye int) {
 			fmt.Print("Ketik Judul Kampanye: ")
 			fmt.Scan(&pilihanJudul)
 			pilihanIdx = findJudulKampanye(tempKampanye, jumlahKampanye, pilihanJudul)
-		} else if pilihan == 3 {
-			fmt.Print("Ketik Kategori Kampanye: ")
-			fmt.Scan(&pilihanKategori)
-			pilihanIdx = findKategoriKampanye(tempKampanye, jumlahKampanye, pilihanKategori)
 		} else if pilihan == 0 {
 			fmt.Println("    Kembali ke menu utama")
 		} else {
@@ -499,13 +483,10 @@ func tambahDonasi(daftarKampanye *tabKampanye, daftarDonasi *tabDonasi, pengguna
 
 	if penggunaMasuk.Peran == "" {
 		fmt.Println("    Silakan masuk terlebih dahulu!")
-		fmt.Println()
 	} else if *jumlahDonasi >= maxDonasi {
 		fmt.Println("    Jumlah donasi sudah mencapai batas maksimum!")
-		fmt.Println()
 	} else if jumlahKampanye == 0 {
 		fmt.Println("    Belum ada kampanye yang dibuat!")
-		fmt.Println()
 	} else {
 		fmt.Println("===   DONASI KAMPANYE   ===")
 		tampilkanKampanye(daftarKampanye, jumlahKampanye)
@@ -725,7 +706,6 @@ func tampilNamaDonatur(daftarKampanye tabKampanye, jumlahKampanye int, arrKampan
 	}
 	fmt.Scan(&blank)
 }
-
 
 func tampilKampanyeDonatur(daftarDonasi tabDonasi, jumlahDonasi int, daftarKampanye tabKampanye, jumlahKampanye int,pilihanId int) {
 	var i int
