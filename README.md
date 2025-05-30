@@ -1,386 +1,288 @@
-# Sistem Galang Dana (Crowdfunding)
+# 💰 Sistem Crowdfunding - Platform Penggalangan Dana Digital
 
-Program komputer untuk galang dana yang berjalan di layar hitam (command line). Program ini dibuat dengan bahasa Go dan membantu orang membuat kampanye galang dana, memberikan donasi, dan melihat perkembangan dana yang terkumpul dengan tampilan yang mudah digunakan.
+Sebuah aplikasi penggalangan dana digital yang dibuat menggunakan bahasa pemrograman Go. Aplikasi ini memungkinkan pengguna untuk membuat kampanye penggalangan dana dan menerima donasi dari para donatur.
 
-## Fitur Utama
+## 📋 Daftar Isi
 
-### Daftar dan Masuk ke Program
-- **Daftar Akun Baru**: Buat akun dengan email yang valid (harus pakai @gmail.com, @yahoo.com, atau @outlook.com)
-- **Masuk ke Program**: Login pakai email atau nama pengguna dengan kata sandi
-- **Dua Jenis Pengguna**: Ada admin (pengurus) dan donatur (pemberi dana) dengan hak akses yang berbeda
-- **Keamanan Kata Sandi**: Kata sandi harus kuat (ada huruf besar, kecil, angka, dan simbol khusus)
-- **Keluar Program**: Bisa logout untuk mengakhiri sesi
+1. [Tentang Aplikasi](#tentang-aplikasi)
+2. [Fitur Utama](#fitur-utama)
+3. [Cara Menjalankan](#cara-menjalankan)
+4. [Cara Menggunakan](#cara-menggunakan)
+5. [Struktur Data](#struktur-data)
+6. [Algoritma yang Digunakan](#algoritma-yang-digunakan)
+7. [Batasan Sistem](#batasan-sistem)
+8. [Contoh Penggunaan](#contoh-penggunaan)
 
-### Kelola Kampanye Galang Dana
-- **Buat Kampanye Baru**: Hanya admin yang bisa membuat kampanye galang dana baru
-- **Cari Kampanye**: Bisa mencari kampanye berdasarkan nomor ID atau judul
-- **Lihat Detail**: Melihat informasi lengkap kampanye dengan grafik batang progress
-- **Update Status**: Otomatis mengubah status menjadi "selesai" kalau target sudah tercapai 100%
-- **Urutkan Kampanye**: Bisa mengurutkan kampanye berdasarkan persentase progress
+## 🎯 Tentang Aplikasi
 
-### Sistem Donasi
-- **Berdonasi**: Siapa saja bisa memberikan donasi ke kampanye yang masih aktif
-- **Perlindungan Donasi**: Kalau donasi berlebihan, kelebihan akan dikembalikan
-- **Catat Donatur**: Semua donasi tercatat lengkap dengan nama pemberi dan kampanye tujuan
-- **Filter Donasi**: Bisa melihat donasi berdasarkan nama donatur atau kampanye tertentu
-- **Urutkan Donasi**: Bisa mengurutkan donasi dari yang terkecil atau terbesar
+Sistem Crowdfunding ini adalah aplikasi berbasis terminal yang memungkinkan:
+- **Admin** dapat membuat dan mengelola kampanye penggalangan dana
+- **Donatur** dapat memberikan donasi pada kampanye yang mereka pilih
+- Semua pengguna dapat melihat daftar kampanye dan riwayat donasi
 
-### Laporan dan Analisis
-- **Prediksi Target**: Fitur khusus admin untuk memperkirakan kapan target tercapai
-- **Grafik Progress**: Grafik batang sederhana untuk melihat perkembangan kampanye
-- **Total Donasi**: Hitung otomatis total dana yang terkumpul
-- **Laporan Lengkap**: Statistik donasi per orang dan per kampanye
+Aplikasi ini dibangun sebagai tugas besar mata kuliah Algoritma Pemrograman dengan mengimplementasikan berbagai struktur data dan algoritma sorting/searching.
 
+## ✨ Fitur Utama
 
-## Cara Menjalankan Program
+### 🔐 Sistem Autentikasi
+- **Pendaftaran Pengguna Baru**: Validasi email, username, dan password yang kuat
+- **Login/Logout**: Sistem keamanan dengan peran pengguna (admin/donatur)
+- **Validasi Email**: Mendukung domain @gmail.com, @yahoo.com, dan @outlook.com
 
-1. Pastikan komputer sudah ada program Go (Golang) versi 1.16 atau lebih baru
-2. Download atau salin file program ke komputer
-3. Buka terminal (command prompt) dan masuk ke folder program
-4. Ketik perintah berikut untuk menjalankan:
+### 👥 Manajemen Pengguna
+- **Dua Jenis Peran**:
+  - **Admin**: Dapat membuat kampanye dan melihat prediksi target
+  - **Donatur**: Dapat berdonasi dan melihat riwayat donasi
+
+### 🎯 Manajemen Kampanye
+- **Buat Kampanye Baru** (khusus admin)
+- **Lihat Daftar Kampanye** dengan sorting berdasarkan progress
+- **Detail Kampanye** dengan progress bar visual
+- **Status Kampanye**: Aktif atau Selesai
+- **Kategori Beragam**: Pendidikan, Kesehatan, Teknologi, dll.
+
+### 💸 Sistem Donasi
+- **Berdonasi** pada kampanye aktif
+- **Validasi Donasi**: Tidak boleh melebihi target kampanye
+- **Auto-Complete**: Kampanye otomatis selesai saat target tercapai
+- **Riwayat Donasi** lengkap dengan sorting
+
+### 📊 Laporan dan Analisis
+- **Total Donasi** keseluruhan sistem
+- **Filter Donasi** berdasarkan nama donatur atau ID kampanye
+- **Prediksi Pencapaian Target** menggunakan rata-rata donasi
+- **Progress Bar Visual** untuk setiap kampanye
+
+## 🚀 Cara Menjalankan
+
+### Prasyarat
+Pastikan Go (Golang) sudah terinstall di komputer Anda. Untuk mengecek:
 ```bash
-go run crowdfunding.go
+go version
 ```
-5. Program akan langsung menampilkan menu utama sistem galang dana
 
-## Struktur Data
+### Menjalankan Aplikasi
+1. Buka terminal/command prompt
+2. Navigasi ke folder project:
+   ```bash
+   cd "/Users/bangjhener/Desktop/Telkom/Semester 2/Algoritma Pemrograman/Tugas Anak Muda/tugas_besar_alpro_kelompok_RendangKeju"
+   ```
+3. Jalankan aplikasi:
+   ```bash
+   go run crowdfunding.go
+   ```
 
-### Jenis-jenis Data yang Disimpan
+## 📖 Cara Menggunakan
+
+### 1. Menu Utama
+Saat aplikasi dijalankan, Anda akan melihat menu utama:
+```
+==== SISTEM CROWDFUNDING ====
+Daftar (1)
+Masuk (2)
+Lihat Donasi (3)
+Lihat Kampanye (4)
+Berdonasi (5)
+Ketik '-1' untuk keluar
+```
+
+### 2. Pendaftaran Pengguna Baru
+- Pilih menu (1) untuk mendaftar
+- Masukkan email yang valid (gmail.com, yahoo.com, atau outlook.com)
+- Buat username unik (4-25 karakter)
+- Password harus mengandung:
+  - Minimal 8 karakter
+  - Huruf besar dan kecil
+  - Angka
+  - Simbol (@, #, $, %, &)
+- Pilih peran: admin atau donatur
+
+### 3. Login
+- Pilih menu (2) untuk masuk
+- Masukkan email/username dan password
+
+### 4. Fitur untuk Semua Pengguna
+
+#### Lihat Donasi (3)
+- Melihat semua riwayat donasi
+- Filter berdasarkan nama donatur atau ID kampanye
+- Sorting ascending/descending berdasarkan jumlah donasi
+
+#### Lihat Kampanye (4)
+- Daftar semua kampanye dengan progress bar
+- Sorting berdasarkan progress kampanye
+- Detail kampanye lengkap dengan deskripsi
+
+#### Berdonasi (5)
+- Pilih kampanye aktif untuk didonasi
+- Masukkan jumlah donasi
+- Sistem otomatis validasi tidak melebihi target
+
+### 5. Fitur Khusus Admin
+
+#### Buat Kampanye (6)
+- Input judul, kategori, deskripsi, dan target dana
+- Kampanye otomatis mendapat ID unik
+- Status awal: aktif
+
+#### Prediksi Pencapaian Target (8)
+- Analisis berdasarkan rata-rata donasi existing
+- Estimasi jumlah transaksi yang dibutuhkan
+- Khusus untuk kampanye yang masih aktif
+
+## 🗂️ Struktur Data
+
+### Pengguna (User)
 ```go
 type Pengguna struct {
-    Email    string  // Alamat email pengguna
-    Username string  // Nama pengguna
-    Password string  // Kata sandi
+    Email    string  // Email pengguna
+    Username string  // Nama pengguna unik
+    Password string  // Password terenkripsi
     Peran    string  // "admin" atau "donatur"
 }
+```
 
+### Kampanye (Campaign)
+```go
 type Kampanye struct {
-    Id        int     // Nomor ID kampanye
+    Id        int     // ID unik kampanye
     Judul     string  // Judul kampanye
-    Kategori  string  // Kategori (pendidikan, kesehatan, dll)
-    Deskripsi string  // Penjelasan kampanye
-    Target    int     // Target dana dalam Rupiah
-    Terkumpul int     // Dana yang sudah terkumpul
-    Progress  int     // Persentase tercapai (0-100)
+    Kategori  string  // Kategori (Pendidikan, Kesehatan, dll)
+    Deskripsi string  // Deskripsi detail
+    Target    int     // Target dana (Rupiah)
+    Terkumpul int     // Dana terkumpul saat ini
+    Progress  int     // Persentase progress (0-100%)
     Status    string  // "aktif" atau "selesai"
 }
+```
 
+### Donasi (Donation)
+```go
 type Donasi struct {
-    KampanyeId  int     // ID kampanye tujuan
-    NamaDonatur string  // Nama pemberi donasi
-    Jumlah      int     // Jumlah donasi dalam Rupiah
+    KampanyeId  int     // ID kampanye yang didonasi
+    NamaDonatur string  // Username donatur
+    Jumlah      int     // Jumlah donasi (Rupiah)
 }
 ```
 
-### Batas Maksimum Sistem
+## 🔍 Algoritma yang Digunakan
+
+### 1. Sorting Algorithms
+
+#### Selection Sort (Descending)
+Digunakan untuk mengurutkan kampanye berdasarkan progress dari tertinggi ke terendah:
 ```go
-const maxPengguna int = 100    // Maksimal 100 pengguna terdaftar
-const maxKampanye int = 100    // Maksimal 100 kampanye aktif
-const maxDonasi int = 1000     // Maksimal 1000 transaksi donasi
+func sortSelectionDesc(daftarKampanye *tabKampanye, jumlahKampanye int)
 ```
 
-## Cara Kerja Program
-
-### Cara Mencari Data
-- **Pencarian Cepat**: Mencari ID kampanye pakai cara pencarian biner (lebih cepat)
-- **Pencarian Biasa**: Mencari nama donatur dan judul kampanye satu per satu
-
-### Cara Mengurutkan Data
-- **Urutkan Kampanye**: 
-  - Bisa urutkan dari progress paling kecil ke besar
-  - Bisa urutkan dari progress paling besar ke kecil
-- **Urutkan Donasi**: 
-  - Bisa urutkan dari donasi paling kecil ke besar  
-  - Bisa urutkan dari donasi paling besar ke kecil
-
-### Keamanan dan Validasi
-- **Cek Email**: Pastikan format email benar dan pakai domain yang diizinkan (@gmail.com, @yahoo.com, @outlook.com)
-- **Kata Sandi Kuat**: Minimal 8 karakter dengan campuran huruf besar, kecil, angka, dan simbol khusus
-- **Nama Pengguna Unik**: Tidak boleh ada nama pengguna yang sama
-- **Cegah Data Ganda**: Email dan nama pengguna harus unik untuk mencegah duplikasi
-- **Validasi Input**: Semua input dicek untuk mencegah error dan memastikan data benar
-
-### Fitur Tambahan
-- **Grafik Progress**: Membuat grafik batang sederhana pakai karakter ASCII untuk menunjukkan progress
-- **Perlindungan Donasi**: Cek donasi berlebihan dan kembalikan otomatis jika melebihi target
-- **Update Status**: Otomatis ubah status kampanye berdasarkan pencapaian target
-
-## Menu & Pilihan
-
-### Menu yang Muncul (Berubah Sesuai Status)
-Menu yang ditampilkan berubah-ubah tergantung apakah sudah login atau belum dan jenis pengguna:
-
-**Untuk Pengunjung (Belum Login):**
-1. **Daftar (1)** - Buat akun baru dengan validasi lengkap
-2. **Masuk (2)** - Login ke sistem pakai email/nama pengguna
-3. **Lihat Donasi (3)** - Lihat semua transaksi donasi (hanya baca)
-4. **Lihat Kampanye (4)** - Lihat dan baca detail kampanye
-5. **Berdonasi (5)** - Berikan donasi (harus login dulu)
-
-**Untuk Donatur (Setelah Login):**
-3. **Lihat Donasi (3)** - Tampilkan semua transaksi donasi dengan opsi filter
-4. **Lihat Kampanye (4)** - Lihat dan baca kampanye
-5. **Berdonasi (5)** - Berikan donasi ke kampanye yang masih aktif
-7. **Keluar (7)** - Logout dari sistem
-
-**Untuk Admin (Setelah Login):**
-3. **Lihat Donasi (3)** - Tampilkan semua transaksi donasi dengan opsi filter
-4. **Lihat Kampanye (4)** - Lihat dan baca kampanye
-5. **Berdonasi (5)** - Berikan donasi ke kampanye yang masih aktif
-6. **Buat Kampanye (6)** - Membuat kampanye baru (khusus admin)
-7. **Keluar (7)** - Logout dari sistem
-8. **Prediksi Target (8)** - Analisis dan prediksi (khusus admin)
-
-**Pilihan Global:**
-- **Ketik '-1'** - Keluar dari program
-
-### Cara Mencari dan Menyaring
-
-#### Cari Kampanye
-- **Berdasarkan ID**: Cari kampanye pakai nomor ID dengan pencarian cepat
-- **Berdasarkan Judul**: Cari kampanye pakai kata-kata dalam judul (pencarian fleksibel)
-
-#### Saring Donasi
-- **Berdasarkan Nama Donatur**: Tampilkan donasi dari orang tertentu dengan opsi urutan
-- **Berdasarkan ID Kampanye**: Tampilkan donasi untuk kampanye tertentu dengan batas tampilan
-
-### Pilihan Urutan
-- **Kampanye**: Urutkan berdasarkan persentase progress (kecil ke besar/besar ke kecil)
-- **Donasi**: Urutkan berdasarkan jumlah donasi (kecil ke besar/besar ke kecil)
-
-## Fitur Analisis & Prediksi
-
-### Prediksi Pencapaian Target (Khusus Admin)
-Fitur khusus untuk admin yang menganalisis kemungkinan tercapainya target kampanye:
-
-**Yang Dianalisis:**
-- Rata-rata donasi per kampanye berdasarkan riwayat transaksi
-- Sisa target yang belum tercapai
-- Perkiraan jumlah transaksi yang dibutuhkan untuk mencapai target
-- Hanya menganalisis kampanye dengan status "aktif"
-
-**Rumus Perhitungan:**
-```
-Rata-rata Donasi = Total Donasi Kampanye / Jumlah Transaksi
-Sisa Target = Target Kampanye - Dana Terkumpul
-Perkiraan Transaksi = pembulatan ke atas(Sisa Target / Rata-rata Donasi)
+#### Selection Sort (Ascending)
+Mengurutkan kampanye dari progress terendah ke tertinggi:
+```go
+func sortSelectionAsc(daftarKampanye *tabKampanye, jumlahKampanye int)
 ```
 
-**Hasil Prediksi:**
-- Nama kampanye yang dianalisis
-- Sisa target dana dalam Rupiah
-- Rata-rata donasi per transaksi
-- Perkiraan jumlah transaksi untuk mencapai target
-
-### Tampilan Progress Visual
-Sistem menggunakan grafik batang sederhana untuk menampilkan pencapaian target:
-```
-Progress: 75% [███████████████░░░░░]
-Progress: 50% [██████████░░░░░░░░░░]
-Progress: 100% [████████████████████]
+#### Insertion Sort
+Mengurutkan donasi berdasarkan jumlah (ascending/descending):
+```go
+func insertionSortAsc(daftarDonasi *tabDonasi, jumlahDonasi int)
+func insertionSortDesc(daftarDonasi *tabDonasi, jumlahDonasi int)
 ```
 
-Simbol yang digunakan:
-- `█` (Kotak penuh) untuk bagian yang sudah tercapai
-- `░` (Kotak kosong) untuk bagian yang belum tercapai
-- Lebar total: 20 karakter untuk tampilan yang proporsional
+### 2. Searching Algorithms
 
-## Pengelolaan Data & Contoh Data
+#### Binary Search
+Mencari kampanye berdasarkan ID (data harus terurut):
+```go
+func findIdKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanId int) int
+```
 
-### Akun Default untuk Mencoba Program
-Sistem sudah dilengkapi dengan 3 akun siap pakai untuk kemudahan mencoba:
+#### Linear Search
+Mencari kampanye berdasarkan judul:
+```go
+func findJudulKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanJudul string) int
+```
 
-1. **Akun Admin**
-   - Email: `ammar@gmail.com`
-   - Nama Pengguna: `ammar`
-   - Kata Sandi: `Ammar1234@`
-   - Peran: `admin`
+### 3. Filter dan Aggregation
 
-2. **Akun Donatur 1**
-   - Email: `abrar@yahoo.com`
-   - Nama Pengguna: `abrar`
-   - Kata Sandi: `Abrar1234@`
-   - Peran: `donatur`
+#### Filter Donasi
+- `findNamaDonasi()`: Filter donasi berdasarkan nama donatur
+- `findIdDonasi()`: Filter donasi berdasarkan ID kampanye
 
-3. **Akun Donatur 2**
-   - Email: `annisa@yahoo.com`
-   - Nama Pengguna: `annisa`
-   - Kata Sandi: `Annisa1234@`
-   - Peran: `donatur`
+#### Kalkulasi Statistik
+- `totalDonasi()`: Menghitung total semua donasi
+- `totalDonasiDonatur()`: Total donasi per donatur
+- `prediksiPencapaianTarget()`: Prediksi menggunakan rata-rata
 
-### Contoh Data Kampanye
-Program menyediakan 10 kampanye contoh dengan berbagai kategori:
+## ⚙️ Batasan Sistem
 
-1. **Bantuan Pendidikan Anak Yatim** (ID: 100) - Pendidikan - 50% progress
-2. **Renovasi Masjid Al-Ikhlas** (ID: 110) - Religi - 75% progress
-3. **Bantuan Korban Bencana Alam** (ID: 120) - Bencana - 75% progress
-4. **Kampus Bersih dan Hijau** (ID: 130) - Lingkungan - 100% (selesai)
-5. **Beasiswa Mahasiswa Berprestasi** (ID: 140) - Pendidikan - 50% progress
-6. **Posyandu Sehat Mandiri** (ID: 150) - Kesehatan - 50% progress
-7. **Gerakan Literasi Digital** (ID: 160) - Teknologi - 30% progress
-8. **Pembangunan Perpustakaan Desa** (ID: 170) - Pendidikan - 80% progress
-9. **Festival Seni Budaya Lokal** (ID: 180) - Budaya - 75% progress
-10. **Pemberdayaan UMKM Perempuan** (ID: 190) - Ekonomi - 30% progress
-
-### Contoh Data Donasi
-10 transaksi donasi contoh dari berbagai donatur ke kampanye yang tersedia, dengan nilai donasi mulai dari Rp 500.000 hingga Rp 2.500.000.
-
-## Fitur Keamanan & Validasi
+### Kapasitas Maximum
+- **Pengguna**: 100 user
+- **Kampanye**: 100 kampanye
+- **Donasi**: 1,000 transaksi donasi
 
 ### Validasi Input
-- **Format Email**: Cek format email dan hanya izinkan domain tertentu (@gmail.com, @yahoo.com, @outlook.com)
-- **Nama Pengguna**: Cek keunikan dan format nama pengguna yang tidak boleh ada spasi
-- **Persyaratan Kata Sandi**: Minimal 8 karakter dengan campuran:
-  - Minimal 1 huruf besar (A-Z)
-  - Minimal 1 huruf kecil (a-z)  
-  - Minimal 1 angka (0-9)
-  - Minimal 1 simbol khusus (@, #, $, %, &, *, dll)
+- **Email**: 12-25 karakter, domain terbatas
+- **Username**: 4-25 karakter, harus unik
+- **Password**: Minimal 8 karakter dengan kompleksitas tinggi
+- **Donasi**: Tidak boleh melebihi sisa target kampanye
 
-### Kontrol Akses Berdasarkan Peran
-- **Akses Admin**: Akses penuh termasuk membuat kampanye dan analisis
-- **Akses Donatur**: Bisa berdonasi dan melihat informasi kampanye
-- **Akses Pengunjung**: Hanya bisa melihat informasi (tidak bisa edit)
+### Keamanan
+- Password validation
+- Role-based access control (admin and donatur)
+- Session management untuk login/logout
 
-### Perlindungan Data
-- **Cegah Data Ganda**: Validasi email dan nama pengguna unik untuk mencegah duplikasi
-- **Validasi Kampanye**: Cek status kampanye sebelum menerima donasi
-- **Perlindungan Overflow**: Pengembalian otomatis jika donasi melebihi target
+## 💡 Contoh Penggunaan
 
-### Manajemen Sesi
-- **Status Login**: Melacak status login pengguna
-- **Fungsi Logout**: Bersihkan data sesi saat logout
-- **Kontrol Akses**: Validasi peran pengguna untuk setiap tindakan
+### Scenario 1: Admin Membuat Kampanye
+1. Login sebagai admin
+2. Pilih menu "Buat Kampanye (6)"
+3. Input data:
+   - Judul: "Bantuan_Belajar_Online"
+   - Kategori: "Pendidikan"
+   - Deskripsi: "Laptop_untuk_siswa_kurang_mampu"
+   - Target: 5000000
+4. Kampanye otomatis mendapat ID dan status "aktif"
 
-## Antarmuka Pengguna & Pengalaman
+### Scenario 2: Donatur Berdonasi
+1. Login sebagai donatur
+2. Pilih menu "Lihat Kampanye (4)" untuk melihat daftar
+3. Pilih menu "Berdonasi (5)"
+4. Input ID kampanye dan jumlah donasi
+5. Sistem validasi dan update progress otomatis
 
-### Command Line Interaktif
-- **Menu Dinamis**: Menu berubah sesuai status login dan peran pengguna
-- **Navigasi Jelas**: Petunjuk yang jelas untuk setiap input yang diminta
-- **Pesan Error**: Pesan error yang informatif untuk membantu pengguna
-- **Konfirmasi**: Konfirmasi untuk tindakan penting seperti donasi dan pembuatan kampanye
+### Scenario 3: Melihat Laporan Donasi
+1. Pilih menu "Lihat Donasi (3)"
+2. Pilih filter berdasarkan nama donatur atau ID kampanye
+3. Pilih sorting ascending/descending
+4. Lihat total donasi dan detail transaksi
 
-### Elemen Visual
-- **Grafik Batang**: Visualisasi sederhana untuk progress kampanye
-- **Output Terformat**: Tampilan data yang rapi dan mudah dibaca
-- **Format Mata Uang**: Format Rupiah (Rp) untuk semua nilai uang
-- **Indikator Status**: Indikator jelas untuk status kampanye (aktif/selesai)
+## 🎮 Data Demo
 
-### Panduan Pengguna
-- **Teks Bantuan**: Petunjuk jelas untuk setiap menu dan input
-- **Validasi Input**: Validasi langsung dengan pesan error yang membantu
-- **Opsi Keluar**: Berbagai cara untuk kembali ke menu atau keluar aplikasi
+Aplikasi sudah dilengkapi dengan data demo untuk testing:
 
-## Gambaran Fungsional
+### Users Default:
+- **Admin**: ammar@gmail.com / password: Ammar1234@
+- **Donatur 1**: abrar@yahoo.com / password: Abrar1234@
+- **Donatur 2**: annisa@yahoo.com / password: Annisa1234@
 
-### Fungsi Inti (33 Total Fungsi)
+### Kampanye Demo:
+- Bantuan Pendidikan Anak Yatim (50% progress)
+- Renovasi Masjid Al-Ikhlas (75% progress)
+- Bantuan Korban Bencana Alam (75% progress)
+- Dan 7 kampanye lainnya
 
-#### Autentikasi & Manajemen Pengguna (7 fungsi)
-- `daftar()` - Registrasi pengguna dengan validasi komprehensif
-- `verikasiEmail()` - Validasi format dan domain email  
-- `verikasiUsername()` - Pengecekan keunikan dan format nama pengguna
-- `verikasiPassword()` - Validasi kekuatan kata sandi
-- `verikasiPeran()` - Validasi pemilihan peran
-- `masuk()` - Fungsi login pengguna
-- `logOut()` - Pengakhiran sesi
+## 🤝 Kontribusi
 
-#### Manajemen Kampanye (8 fungsi)
-- `buatKampanye()` - Pembuatan kampanye (khusus admin)
-- `tampilkanKampanye()` - Tampilkan kampanye dengan pengurutan
-- `detailKampanye()` - Detail kampanye dan pencarian
-- `tampilkanDetailKampanye()` - Tampilan detail kampanye tunggal
-- `findIdKampanye()` - Pencarian biner untuk ID kampanye
-- `findJudulKampanye()` - Pencarian fuzzy untuk judul kampanye
-- `containsChar()` - Utilitas pencocokan karakter
-- `checkKampanyeAktif()` - Validasi status kampanye aktif
+Proyek ini merupakan tugas besar kelompok **RendangKeju** untuk mata kuliah Algoritma Pemrograman di Telkom University.
 
-#### Sistem Donasi (8 fungsi)
-- `tambahDonasi()` - Proses donasi dengan validasi
-- `tampilkanDonasi()` - Tampilkan donasi dengan filtering
-- `findNamaDonasi()` - Filter donasi berdasarkan nama donatur
-- `findIdDonasi()` - Filter donasi berdasarkan ID kampanye
-- `totalDonasi()` - Hitung total donasi
-- `totalDonasiDonatur()` - Hitung donasi oleh donatur spesifik
-- `tampilNamaDonatur()` - Tampilkan informasi spesifik donatur
-- `tampilKampanyeDonatur()` - Tampilkan donasi spesifik kampanye
+## 📝 Catatan Teknis
 
-#### Algoritma Pengurutan (4 fungsi)
-- `insertionSortAsc()` - Insertion sort naik untuk donasi
-- `insertionSortDesc()` - Insertion sort turun untuk donasi
-- `sortSelectionAsc()` - Selection sort naik untuk kampanye
-- `sortSelectionDesc()` - Selection sort turun untuk kampanye
+- **Bahasa**: Go (Golang)
+- **Interface**: Command Line Interface (CLI)
+- **Storage**: In-memory (data hilang saat aplikasi ditutup)
+- **Algoritma**: Selection Sort, Insertion Sort, Binary Search, Linear Search
+- **Pattern**: Procedural Programming dengan struct dan functions
 
-#### Analisis & Utilitas (6 fungsi)
-- `prediksiPencapaianTarget()` - Prediksi pencapaian target (khusus admin)
-- `createProgressBar()` - Generator progress bar ASCII
-- `findJudul()` - Dapatkan judul kampanye berdasarkan ID
-- `menuUtama()` - Tampilan menu utama dinamis
-- `dummyDataKampanye()` - Inisialisasi data kampanye contoh
-- `dummyDataDonasi()` - Inisialisasi data donasi contoh
-
-#### Program Utama (1 fungsi)
-- `main()` - Loop program utama dan inisialisasi
-
-## Spesifikasi Teknis
-
-### Library yang Digunakan
-```go
-import (
-    "fmt"   // Untuk input/output dan format tampilan
-    "math"  // Untuk operasi matematika (fungsi pembulatan ke atas)
-)
-```
-
-### Konstanta
-```go
-const maxPengguna int = 100    // Maksimal pengguna
-const maxKampanye int = 100    // Maksimal kampanye  
-const maxDonasi int = 1000     // Maksimal donasi
-```
-
-### Jenis Array
-```go
-type tabPengguna [maxPengguna]Pengguna
-type tabKampanye [maxKampanye]Kampanye
-type tabDonasi [maxDonasi]Donasi
-```
-
-## Keterbatasan & Pertimbangan
-
-### Keterbatasan Saat Ini
-- **Penyimpanan Data**: Data tidak tersimpan permanen (hilang setelah program ditutup)
-- **Antarmuka**: Hanya antarmuka command line, tidak ada tampilan grafis
-- **Bahasa**: Antarmuka menggunakan Bahasa Indonesia
-- **Platform**: Bisa jalan di Linux, Windows, macOS dengan runtime Go
-- **Concurrency**: Hanya satu pengguna dalam satu waktu
-
-### Pertimbangan Performa
-- **Efisiensi Pencarian**: Pencarian biner untuk ID (cepat), pencarian berurutan untuk nama (lambat)
-- **Performa Pengurutan**: Selection sort dan Insertion sort (tidak efisien untuk data besar)
-- **Penggunaan Memori**: Alokasi array tetap sesuai batas maksimum
-- **Skalabilitas**: Terbatas oleh konstanta maksimum yang telah ditentukan
-
-### Saran Perbaikan Masa Depan
-- Integrasi database untuk penyimpanan data permanen
-- Antarmuka berbasis web untuk pengalaman pengguna yang lebih baik
-- Dukungan multi-bahasa (Inggris/Indonesia)
-- Notifikasi real-time dan integrasi email
-- Fitur analisis dan pelaporan lanjutan
-- Dukungan multi-mata uang
 ---
 
-## Panduan Memulai
-
-### Cara Cepat Memulai
-1. Jalankan program: `go run crowdfunding.go`
-2. Login sebagai admin: email `ammar@gmail.com`, kata sandi `Ammar1234@`
-3. Atau login sebagai donatur: email `abrar@yahoo.com`, kata sandi `Abrar1234@`
-4. Jelajahi fitur-fitur yang tersedia sesuai dengan peran pengguna
-
-### Skenario Pengujian
-- **Tes Pendaftaran**: Daftar pengguna baru dengan berbagai validasi
-- **Tes Donasi**: Lakukan donasi ke berbagai kampanye
-- **Tes Analisis**: Login sebagai admin dan gunakan fitur prediksi
-- **Tes Pencarian**: Cari kampanye berdasarkan ID atau judul
-- **Tes Pengurutan**: Urutkan kampanye dan donasi dengan berbagai kriteria
-
-*Dikembangkan untuk Tugas Besar Algoritma Pemrograman - Kelompok RendangKeju*
+*Dibuat dengan ❤️ oleh Kelompok RendangKeju - Telkom University*
