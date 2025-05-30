@@ -89,8 +89,8 @@ func verikasiEmail(daftarPengguna tabPengguna, jumlahPengguna int, email *string
 
 	valid = false
 	for *allow && !valid && (*email != "keluar") {
-		if len(*email) < 12 || len(*email) > 50 {
-			fmt.Println("Email harus memiliki panjang antara 12 hingga 50 karakter.")
+		if len(*email) < 12 || len(*email) > 25 {
+			fmt.Println("Email harus memiliki panjang antara 12 hingga 25 karakter.")
 		} else {
 			validDomain = false
 
@@ -138,7 +138,7 @@ func verikasiUsername(daftarPengguna tabPengguna, jumlahPengguna int, username *
 	for *allow && !valid {
 		*allow = *username != "keluar"
 		if *allow {
-			if len(*username) >= 4 && len(*username) <= 50 {
+			if len(*username) >= 4 && len(*username) <= 25 {
 				valid = true
 				for i = 0; i < jumlahPengguna; i++ {
 					if daftarPengguna[i].Username == *username {
@@ -147,7 +147,7 @@ func verikasiUsername(daftarPengguna tabPengguna, jumlahPengguna int, username *
 					}
 				}
 			} else {
-				fmt.Println("Username harus memiliki panjang antara 4 hingga 50 karakter.")
+				fmt.Println("Username harus memiliki panjang antara 4 hingga 25 karakter.")
 				valid = false
 			}
 
@@ -164,7 +164,7 @@ func verikasiPassword(pass *string, allow *bool) {
 	var upper, lower, number, special, passValid bool
 
 	if *allow {
-		fmt.Print("Password - Gunakan minimal 8 huruf dengan isi huruf besar, angka, dan simbol(@,#,$,%,&) : ")
+		fmt.Print("Password - Gunakan minimal 8 huruf dengan isi huruf besar, huruf kecil, angka, dan simbol(@,#,$,%,&) : ")
 		fmt.Scan(&*pass)
 	}
 
@@ -254,6 +254,82 @@ func masuk(daftarPengguna *tabPengguna, penggunaMasuk *Pengguna, jumlahPengguna 
 	if !loginValid {
 		fmt.Println()
 		fmt.Println("   Email/Username atau Password salah!")
+	}
+	fmt.Println()
+}
+
+func tampilkanDonasi(daftarDonasi *tabDonasi, jumlahDonasi int, daftarKampanye tabKampanye, jumlahKampanye int) {
+	var i, pilihan, pilihanId, pilihanMaxIdx, pilihanUrutan int
+	var k Donasi
+	var tempDaftarDonasi tabDonasi
+	var pilihanNama string
+	var detailDonatur tabDonasi
+
+	tempDaftarDonasi = *daftarDonasi
+
+	if jumlahDonasi == 0 {
+		fmt.Println("    Belum ada donasi yang dilakukan!")
+	} else {
+		insertionSortDesc(&tempDaftarDonasi, jumlahDonasi)
+		fmt.Println("      === CATATAN DONASI ===")
+
+		for i = 0; i < jumlahDonasi; i++ {
+			k = tempDaftarDonasi[i]
+			fmt.Printf("Kampanye ID: %d\n", k.KampanyeId)
+			fmt.Printf("Nama Donatur: %s\n", k.NamaDonatur)
+			fmt.Printf("Jumlah Donasi: Rp %d\n", k.Jumlah)
+			fmt.Println()
+		}
+
+		fmt.Println("===   TOTAL KESELURUHAN DONASI   ===")
+		fmt.Println("Jumlah donasi: ", jumlahDonasi)
+		fmt.Println("Total donasi: Rp ", totalDonasi(tempDaftarDonasi, jumlahDonasi))
+		fmt.Println()
+		fmt.Println("= Pilih donasi untuk melihat detail =")
+		fmt.Println("1. Berdasarkan Nama Donatur")
+		fmt.Println("2. Berdasarkan ID Kampanye")
+		fmt.Println("Kembali ke menu utama (0)")
+
+		fmt.Print("Pilih opsi (ketik angka): ")
+		fmt.Scan(&pilihan)
+
+		if pilihan == 1 {
+			fmt.Println("Ketik Nama Donatur: ")
+			fmt.Scan(&pilihanNama)
+			fmt.Print("Mau diurutkan berdasarkan (1: Ascending, 2: Descending): ")
+			fmt.Scan(&pilihanUrutan)
+
+			if pilihanUrutan == 1 {
+				insertionSortAsc(&tempDaftarDonasi, jumlahDonasi)
+			} else {
+				insertionSortDesc(&tempDaftarDonasi, jumlahDonasi)
+			}
+
+			detailDonatur = findNamaDonasi(tempDaftarDonasi, jumlahDonasi, pilihanNama)
+			if len(detailDonatur) > 0 {
+
+				fmt.Println()
+				tampilNamaDonatur(daftarKampanye, jumlahKampanye, detailDonatur)
+				fmt.Println("=   Detail Donasi untuk Donatur: ", pilihanNama, "   =")
+				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(tempDaftarDonasi, jumlahDonasi, pilihanNama))
+			}
+		}
+
+		if pilihan == 2 {
+			fmt.Print("Ketik ID Kampanye: ")
+			fmt.Scan(&pilihanId)
+			fmt.Print("Maximal Donasi yang ditampilkan: ")
+			fmt.Scan(&pilihanMaxIdx)
+
+			detailDonatur = findIdDonasi(tempDaftarDonasi, jumlahDonasi, pilihanId, pilihanMaxIdx)
+			if len(detailDonatur) > 0 {
+				fmt.Println()
+				fmt.Printf("=   Detail Donasi untuk Kampanye ID %d:   =\n", pilihanId)
+				tampilKampanyeDonatur(detailDonatur, jumlahDonasi, daftarKampanye, jumlahKampanye, pilihanId)
+				fmt.Println("=   Detail Donasi untuk Kampanye ID: ", pilihanId, "   =")
+				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(detailDonatur, jumlahDonasi, string(pilihanId)))
+			}
+		}
 	}
 	fmt.Println()
 }
@@ -734,82 +810,6 @@ func tampilKampanyeDonatur(daftarDonasi tabDonasi, jumlahDonasi int, daftarKampa
 		}
 	}
 	fmt.Scan(&blank)
-}
-
-func tampilkanDonasi(daftarDonasi *tabDonasi, jumlahDonasi int, daftarKampanye tabKampanye, jumlahKampanye int) {
-	var i, pilihan, pilihanId, pilihanMaxIdx, pilihanUrutan int
-	var k Donasi
-	var tempDaftarDonasi tabDonasi
-	var pilihanNama string
-	var detailDonatur tabDonasi
-
-	tempDaftarDonasi = *daftarDonasi
-
-	if jumlahDonasi == 0 {
-		fmt.Println("    Belum ada donasi yang dilakukan!")
-	} else {
-		insertionSortDesc(&tempDaftarDonasi, jumlahDonasi)
-		fmt.Println("      === CATATAN DONASI ===")
-
-		for i = 0; i < jumlahDonasi; i++ {
-			k = tempDaftarDonasi[i]
-			fmt.Printf("Kampanye ID: %d\n", k.KampanyeId)
-			fmt.Printf("Nama Donatur: %s\n", k.NamaDonatur)
-			fmt.Printf("Jumlah Donasi: Rp %d\n", k.Jumlah)
-			fmt.Println()
-		}
-
-		fmt.Println("===   TOTAL KESELURUHAN DONASI   ===")
-		fmt.Println("Jumlah donasi: ", jumlahDonasi)
-		fmt.Println("Total donasi: Rp ", totalDonasi(tempDaftarDonasi, jumlahDonasi))
-		fmt.Println()
-		fmt.Println("= Pilih donasi untuk melihat detail =")
-		fmt.Println("1. Berdasarkan Nama Donatur")
-		fmt.Println("2. Berdasarkan ID Kampanye")
-		fmt.Println("Kembali ke menu utama (0)")
-
-		fmt.Print("Pilih opsi (ketik angka): ")
-		fmt.Scan(&pilihan)
-
-		if pilihan == 1 {
-			fmt.Println("Ketik Nama Donatur: ")
-			fmt.Scan(&pilihanNama)
-			fmt.Print("Mau diurutkan berdasarkan (1: Ascending, 2: Descending): ")
-			fmt.Scan(&pilihanUrutan)
-
-			if pilihanUrutan == 1 {
-				insertionSortAsc(&tempDaftarDonasi, jumlahDonasi)
-			} else {
-				insertionSortDesc(&tempDaftarDonasi, jumlahDonasi)
-			}
-
-			detailDonatur = findNamaDonasi(tempDaftarDonasi, jumlahDonasi, pilihanNama)
-			if len(detailDonatur) > 0 {
-
-				fmt.Println()
-				tampilNamaDonatur(daftarKampanye, jumlahKampanye, detailDonatur)
-				fmt.Println("=   Detail Donasi untuk Donatur: ", pilihanNama, "   =")
-				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(tempDaftarDonasi, jumlahDonasi, pilihanNama))
-			}
-		}
-
-		if pilihan == 2 {
-			fmt.Print("Ketik ID Kampanye: ")
-			fmt.Scan(&pilihanId)
-			fmt.Print("Maximal Donasi yang ditampilkan: ")
-			fmt.Scan(&pilihanMaxIdx)
-
-			detailDonatur = findIdDonasi(tempDaftarDonasi, jumlahDonasi, pilihanId, pilihanMaxIdx)
-			if len(detailDonatur) > 0 {
-				fmt.Println()
-				fmt.Printf("=   Detail Donasi untuk Kampanye ID %d:   =\n", pilihanId)
-				tampilKampanyeDonatur(detailDonatur, jumlahDonasi, daftarKampanye, jumlahKampanye, pilihanId)
-				fmt.Println("=   Detail Donasi untuk Kampanye ID: ", pilihanId, "   =")
-				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(detailDonatur, jumlahDonasi, string(pilihanId)))
-			}
-		}
-	}
-	fmt.Println()
 }
 
 func menuUtama(penggunaMasuk Pengguna) int {
