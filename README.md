@@ -1,19 +1,8 @@
-# 💰 Sistem Crowdfunding - Platform Penggalangan Dana Digital
+# Sistem Crowdfunding - Platform Penggalangan Dana Digital
 
 Sebuah aplikasi penggalangan dana digital yang dibuat menggunakan bahasa pemrograman Go. Aplikasi ini memungkinkan pengguna untuk membuat kampanye penggalangan dana dan menerima donasi dari para donatur.
 
-## 📋 Daftar Isi
-
-1. [Tentang Aplikasi](#tentang-aplikasi)
-2. [Fitur Utama](#fitur-utama)
-3. [Cara Menjalankan](#cara-menjalankan)
-4. [Cara Menggunakan](#cara-menggunakan)
-5. [Struktur Data](#struktur-data)
-6. [Algoritma yang Digunakan](#algoritma-yang-digunakan)
-7. [Batasan Sistem](#batasan-sistem)
-8. [Contoh Penggunaan](#contoh-penggunaan)
-
-## 🎯 Tentang Aplikasi
+## Tentang Aplikasi
 
 Sistem Crowdfunding ini adalah aplikasi berbasis terminal yang memungkinkan:
 - **Admin** dapat membuat dan mengelola kampanye penggalangan dana
@@ -22,38 +11,7 @@ Sistem Crowdfunding ini adalah aplikasi berbasis terminal yang memungkinkan:
 
 Aplikasi ini dibangun sebagai tugas besar mata kuliah Algoritma Pemrograman dengan mengimplementasikan berbagai struktur data dan algoritma sorting/searching.
 
-## ✨ Fitur Utama
-
-### 🔐 Sistem Autentikasi
-- **Pendaftaran Pengguna Baru**: Validasi email, username, dan password yang kuat
-- **Login/Logout**: Sistem keamanan dengan peran pengguna (admin/donatur)
-- **Validasi Email**: Mendukung domain @gmail.com, @yahoo.com, dan @outlook.com
-
-### 👥 Manajemen Pengguna
-- **Dua Jenis Peran**:
-  - **Admin**: Dapat membuat kampanye dan melihat prediksi target
-  - **Donatur**: Dapat berdonasi dan melihat riwayat donasi
-
-### 🎯 Manajemen Kampanye
-- **Buat Kampanye Baru** (khusus admin)
-- **Lihat Daftar Kampanye** dengan sorting berdasarkan progress
-- **Detail Kampanye** dengan progress bar visual
-- **Status Kampanye**: Aktif atau Selesai
-- **Kategori Beragam**: Pendidikan, Kesehatan, Teknologi, dll.
-
-### 💸 Sistem Donasi
-- **Berdonasi** pada kampanye aktif
-- **Validasi Donasi**: Tidak boleh melebihi target kampanye
-- **Auto-Complete**: Kampanye otomatis selesai saat target tercapai
-- **Riwayat Donasi** lengkap dengan sorting
-
-### 📊 Laporan dan Analisis
-- **Total Donasi** keseluruhan sistem
-- **Filter Donasi** berdasarkan nama donatur atau ID kampanye
-- **Prediksi Pencapaian Target** menggunakan rata-rata donasi
-- **Progress Bar Visual** untuk setiap kampanye
-
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 ### Prasyarat
 Pastikan Go (Golang) sudah terinstall di komputer Anda. Untuk mengecek:
@@ -63,16 +21,45 @@ go version
 
 ### Menjalankan Aplikasi
 1. Buka terminal/command prompt
-2. Navigasi ke folder project:
-   ```bash
-   cd "/Users/bangjhener/Desktop/Telkom/Semester 2/Algoritma Pemrograman/Tugas Anak Muda/tugas_besar_alpro_kelompok_RendangKeju"
-   ```
+2. Navigasi ke folder project
 3. Jalankan aplikasi:
    ```bash
    go run crowdfunding.go
    ```
 
-## 📖 Cara Menggunakan
+
+## Fitur Utama
+
+### Sistem Autentikasi
+- **Pendaftaran Pengguna Baru**: Validasi email, username, dan password yang kuat
+- **Login/Logout**: Sistem keamanan dengan peran pengguna (admin/donatur)
+- **Validasi Email**: Mendukung domain @gmail.com, @yahoo.com, dan @outlook.com
+
+### 👥 Manajemen Pengguna
+- **Dua Jenis Peran**:
+  - **Admin**: Dapat membuat kampanye dan melihat prediksi target
+  - **Donatur**: Dapat berdonasi dan melihat riwayat donasi
+
+### Manajemen Kampanye
+- **Buat Kampanye Baru** (khusus admin)
+- **Lihat Daftar Kampanye** dengan sorting berdasarkan progress
+- **Detail Kampanye** dengan progress bar visual
+- **Status Kampanye**: Aktif atau Selesai
+- **Kategori Beragam**: Pendidikan, Kesehatan, Teknologi, dll.
+
+### Sistem Donasi
+- **Berdonasi** pada kampanye aktif
+- **Validasi Donasi**: Tidak boleh melebihi target kampanye
+- **Auto-Complete**: Kampanye otomatis selesai saat target tercapai
+- **Riwayat Donasi** lengkap dengan sorting
+
+### Laporan dan Analisis
+- **Total Donasi** keseluruhan sistem
+- **Filter Donasi** berdasarkan nama donatur atau ID kampanye
+- **Prediksi Pencapaian Target** menggunakan rata-rata donasi
+- **Progress Bar Visual** untuk setiap kampanye
+
+## Cara Menggunakan
 
 ### 1. Menu Utama
 Saat aplikasi dijalankan, Anda akan melihat menu utama:
@@ -130,7 +117,7 @@ Ketik '-1' untuk keluar
 - Estimasi jumlah transaksi yang dibutuhkan
 - Khusus untuk kampanye yang masih aktif
 
-## 🗂️ Struktur Data
+## Struktur Data
 
 ### Pengguna (User)
 ```go
@@ -165,7 +152,7 @@ type Donasi struct {
 }
 ```
 
-## 🔍 Algoritma yang Digunakan
+## Algoritma yang Digunakan
 
 ### 1. Sorting Algorithms
 
@@ -213,7 +200,7 @@ func findJudulKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanJu
 - `totalDonasiDonatur()`: Total donasi per donatur
 - `prediksiPencapaianTarget()`: Prediksi menggunakan rata-rata
 
-## ⚙️ Batasan Sistem
+## Batasan Sistem
 
 ### Kapasitas Maximum
 - **Pengguna**: 100 user
@@ -231,7 +218,7 @@ func findJudulKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanJu
 - Role-based access control (admin and donatur)
 - Session management untuk login/logout
 
-## 💡 Contoh Penggunaan
+## Contoh Penggunaan
 
 ### Scenario 1: Admin Membuat Kampanye
 1. Login sebagai admin
@@ -256,7 +243,7 @@ func findJudulKampanye(daftarKampanye tabKampanye, jumlahKampanye int, pilihanJu
 3. Pilih sorting ascending/descending
 4. Lihat total donasi dan detail transaksi
 
-## 🎮 Data Demo
+## Data Demo
 
 Aplikasi sudah dilengkapi dengan data demo untuk testing:
 
@@ -271,17 +258,9 @@ Aplikasi sudah dilengkapi dengan data demo untuk testing:
 - Bantuan Korban Bencana Alam (75% progress)
 - Dan 7 kampanye lainnya
 
-## 🤝 Kontribusi
+## Kontribusi
 
 Proyek ini merupakan tugas besar kelompok **RendangKeju** untuk mata kuliah Algoritma Pemrograman di Telkom University.
-
-## 📝 Catatan Teknis
-
-- **Bahasa**: Go (Golang)
-- **Interface**: Command Line Interface (CLI)
-- **Storage**: In-memory (data hilang saat aplikasi ditutup)
-- **Algoritma**: Selection Sort, Insertion Sort, Binary Search, Linear Search
-- **Pattern**: Procedural Programming dengan struct dan functions
 
 ---
 

@@ -887,7 +887,8 @@ func prediksiPencapaianTarget(daftarKampanye tabKampanye, daftarDonasi tabDonasi
 				fmt.Printf("Kampanye: %s\n", daftarKampanye[i].Judul)
 				fmt.Printf("Sisa target: Rp %d\n", sisaTarget)
 				fmt.Printf("Rata-rata donasi: Rp %.2f\n", rataRataDonasi)
-				fmt.Printf("Estimasi jumlah transaksi untuk mencapai target: %.0f Transaksi\n\n", estimasiTransaksi)
+				fmt.Printf("Estimasi jumlah transaksi untuk mencapai target: %.0f Transaksi\n", estimasiTransaksi)
+				fmt.Printf("Progress: %d%% [%s]\n\n", daftarKampanye[i].Progress, createProgressBar(daftarKampanye[i].Progress))
 			}
 		}
 	}
