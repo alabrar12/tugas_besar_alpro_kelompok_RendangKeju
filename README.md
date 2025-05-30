@@ -35,7 +35,7 @@ go version
 - **Login/Logout**: Sistem keamanan dengan peran pengguna (admin/donatur)
 - **Validasi Email**: Mendukung domain @gmail.com, @yahoo.com, dan @outlook.com
 
-### 👥 Manajemen Pengguna
+### Manajemen Pengguna
 - **Dua Jenis Peran**:
   - **Admin**: Dapat membuat kampanye dan melihat prediksi target
   - **Donatur**: Dapat berdonasi dan melihat riwayat donasi
@@ -263,5 +263,3 @@ Aplikasi sudah dilengkapi dengan data demo untuk testing:
 Proyek ini merupakan tugas besar kelompok **RendangKeju** untuk mata kuliah Algoritma Pemrograman di Telkom University.
 
 ---
-
-*Dibuat dengan ❤️ oleh Kelompok RendangKeju - Telkom University*
