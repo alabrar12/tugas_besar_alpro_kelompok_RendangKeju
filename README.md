@@ -264,4 +264,3 @@ Proyek ini merupakan tugas besar kelompok **RendangKeju** untuk mata kuliah Algo
 
 ---
 
-*Dibuat dengan ❤️ oleh Kelompok RendangKeju - Telkom University*

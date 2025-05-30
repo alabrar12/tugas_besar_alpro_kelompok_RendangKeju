@@ -85,10 +85,10 @@ func verikasiEmail(daftarPengguna tabPengguna, jumlahPengguna int, email *string
 		fmt.Scan(&*email)
 	}
 
-	lenEmail = len(*email) - 1
-
 	valid = false
 	for *allow && !valid && (*email != "keluar") {
+		lenEmail = len(*email) - 1
+		
 		if len(*email) < 12 || len(*email) > 25 {
 			fmt.Println("Email harus memiliki panjang antara 12 hingga 25 karakter.")
 		} else {
@@ -102,12 +102,12 @@ func verikasiEmail(daftarPengguna tabPengguna, jumlahPengguna int, email *string
 
 			if !validDomain || !validDot {
 				fmt.Println("Email harus mengandung '@gmail.com', '@yahoo.com' atau '@outlook.com'")
+				fmt.Println(*email)
 			} else {
 				emailExists = false
 				for i = 0; i < jumlahPengguna && !emailExists; i++ {
 					if daftarPengguna[i].Email == *email {
 						emailExists = true
-						fmt.Println("Email sudah terdaftar!")
 					}
 				}
 
