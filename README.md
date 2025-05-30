@@ -2,7 +2,7 @@
 
 Aplikasi sistem crowdfunding sederhana yang dibangun menggunakan bahasa pemrograman Go. Sistem ini memungkinkan pengguna untuk membuat kampanye crowdfunding, berdonasi, dan melacak progress pencapaian target dana.
 
-## 🚀 Fitur Utama
+## Fitur Utama
 
 ### Autentikasi & Manajemen User
 - **Registrasi Pengguna**: Validasi email dengan domain tertentu (@gmail.com, @yahoo.com, @outlook.com)
@@ -27,7 +27,7 @@ Aplikasi sistem crowdfunding sederhana yang dibangun menggunakan bahasa pemrogra
 - **Progress Visualization**: Progress bar ASCII untuk visualisasi pencapaian target
 
 
-## 🚦 Cara Menjalankan
+## Cara Menjalankan
 
 1. Pastikan Go terinstall di sistem
 2. Clone repository
@@ -36,7 +36,7 @@ Aplikasi sistem crowdfunding sederhana yang dibangun menggunakan bahasa pemrogra
 go run crowdfunding.go
 ```
 
-## 🏗️ Struktur Data
+## Struktur Data
 
 ### Tipe Bentukan (Struct)
 ```go
@@ -70,7 +70,7 @@ type Donasi struct {
 - Maximum 100 kampanye
 - Maximum 1000 transaksi donasi
 
-## 🔧 Algoritma & Implementasi
+## Algoritma & Implementasi
 
 ### Algoritma Pencarian
 - **Binary Search**: Implementasi pada pencarian ID kampanye (fungsi `findIdKampanye`)
@@ -85,7 +85,7 @@ type Donasi struct {
 - **Password Strength**: Minimum 8 karakter dengan kombinasi huruf besar, kecil, angka, dan simbol
 - **Duplicate Prevention**: Validasi email dan username unik
 
-## 🎮 Menu & Navigasi
+## Menu & Navigasi
 
 ### Menu Utama
 1. **Daftar** - Registrasi pengguna baru
@@ -102,7 +102,7 @@ type Donasi struct {
 - **Judul Kampanye**: Mencocokan setiap kata pada judul kampanye untuk fleksibilitas
 - **Kategori**: Pencarian exact match berdasarkan kategori
 
-## 🔍 Fitur Analytics
+## Fitur Analytics
 
 ### Prediksi Pencapaian Target
 Fitur khusus untuk admin yang menganalisis:
@@ -115,7 +115,7 @@ Formula yang digunakan:
 Estimasi Transaksi = ceil(Sisa Target / Rata-rata Donasi)
 ```
 
-## 🎨 User Experience
+## User Experience
 
 ### Progress Visualization
 Sistem menggunakan progress bar ASCII untuk menampilkan pencapaian target:
@@ -127,21 +127,21 @@ Progress: 75% [███████████████░░░░░]
 - **Kampanye**: Sort berdasarkan progress (ascending/descending)
 - **Donasi**: Sort berdasarkan jumlah donasi (ascending/descending)
 
-## 💾 Data Management
+## Data Management
 
 ### Default Users
 Sistem dilengkapi dengan 2 akun default untuk testing:
 - **Admin**: ammar@gmail.com / ammar (Password: Ammar1234@)
 - **Donatur**: ghifari@yahoo.com / ghifari (Password: Ghifari1234@)
 
-## 🔐 Security Features
+## Security Features
 
 - **Input Validation**: Validasi komprehensif untuk semua input user
 - **Role-based Access Control**: Pembatasan akses berdasarkan peran pengguna
 - **Password Requirements**: Enforcement password yang kuat
 - **Duplicate Prevention**: Pencegahan data duplikat
 
-## 📋 Limitations
+## Limitations
 
 - Data tidak persisten (hilang setelah program ditutup)
 - Command-line interface only
