@@ -670,7 +670,19 @@ func findIdDonasi(daftarDonasi tabDonasi, jumlahDonasi int, pilihanId int, maxId
 			idxArr++
 		}
 	}
+	fmt.Println(idxArr)
 	return arrDonasi
+}
+
+func findJudul(daftarKampanye tabKampanye, jumlahKampanye int, pilihanId int) string {
+	var i int
+
+	for i = 0; i < jumlahKampanye; i++ {
+		if daftarKampanye[i].Id == pilihanId {
+			return daftarKampanye[i].Judul
+		}
+	}
+	return "" 
 }
 
 func totalDonasiDonatur(daftarDonasi tabDonasi, jumlahDonasi int, pilihanNama string) int {
@@ -705,26 +717,30 @@ func tampilNamaDonatur(daftarKampanye tabKampanye, jumlahKampanye int, arrKampan
 				fmt.Printf("Judul: %s\n", daftarKampanye[i].Judul)
 				fmt.Printf("Kategori: %s\n", daftarKampanye[i].Kategori)
 				fmt.Printf("Deskripsi: \n%s\n", daftarKampanye[i].Deskripsi)
-				fmt.Printf("Target Dana: Rp %d\n", daftarKampanye[i].Target)
-				fmt.Printf("Terkumpul: Rp %d\n", daftarKampanye[i].Terkumpul)
+				fmt.Printf("Jumlah: %d\n", arrKampanye[j].Jumlah)
 				fmt.Println()
 				printed = false
 			}
 		}
-		fmt.Scan(&blank)
 	}
+	fmt.Scan(&blank)
 }
 
-func tampilKampanyeDonatur(daftarDonasi tabDonasi, jumlahDonasi int) {
+
+func tampilKampanyeDonatur(daftarDonasi tabDonasi, jumlahDonasi int, daftarKampanye tabKampanye, jumlahKampanye int,pilihanId int) {
 	var i int
 	var blank string
 
 	insertionSortDesc(&daftarDonasi, jumlahDonasi)
 
+	fmt.Println("Judul Kampanye: ", findJudul(daftarKampanye, jumlahKampanye, pilihanId))
+	fmt.Println()
 	for i = 0; i < jumlahDonasi; i++ {
-		fmt.Printf("Nama Donatur: %s\n", daftarDonasi[i].NamaDonatur)
-		fmt.Printf("Jumlah Donasi: Rp %d\n", daftarDonasi[i].Jumlah)
-		fmt.Println()
+		if daftarDonasi[i].KampanyeId == pilihanId {
+			fmt.Printf("Nama Donatur: %s\n", daftarDonasi[i].NamaDonatur)
+			fmt.Printf("Jumlah Donasi: Rp %d\n", daftarDonasi[i].Jumlah)
+			fmt.Println()
+		}
 	}
 	fmt.Scan(&blank)
 }
@@ -778,9 +794,10 @@ func tampilkanDonasi(daftarDonasi *tabDonasi, jumlahDonasi int, daftarKampanye t
 
 			detailDonatur = findNamaDonasi(tempDaftarDonasi, jumlahDonasi, pilihanNama)
 			if len(detailDonatur) > 0 {
-				fmt.Printf("Detail Donasi (%v):\n", pilihanNama)
-				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(tempDaftarDonasi, jumlahDonasi, pilihanNama))
+				// fmt.Printf("Detail Donasi (%v):\n", pilihanNama)
+				fmt.Println()
 				tampilNamaDonatur(daftarKampanye, jumlahKampanye, detailDonatur)
+				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(tempDaftarDonasi, jumlahDonasi, pilihanNama))
 			}
 		}
 
@@ -793,10 +810,10 @@ func tampilkanDonasi(daftarDonasi *tabDonasi, jumlahDonasi int, daftarKampanye t
 			detailDonatur = findIdDonasi(tempDaftarDonasi, jumlahDonasi, pilihanId, pilihanMaxIdx)
 			if len(detailDonatur) > 0 {
 				fmt.Println()
-				fmt.Printf("=   Detail Donasi untuk Kampanye ID %d:   =", pilihanId)
-				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(detailDonatur, jumlahDonasi, string(pilihanId)))
+				fmt.Printf("=   Detail Donasi untuk Kampanye ID %d:   =\n", pilihanId)
+				tampilKampanyeDonatur(detailDonatur, jumlahDonasi, daftarKampanye, jumlahKampanye, pilihanId)
 				fmt.Println()
-				tampilKampanyeDonatur(detailDonatur, jumlahDonasi)
+				fmt.Printf("Total Donasi: Rp %d\n", totalDonasiDonatur(detailDonatur, jumlahDonasi, string(pilihanId)))
 			}
 		}
 	}
@@ -885,6 +902,146 @@ func prediksiPencapaianTarget(daftarKampanye tabKampanye, daftarDonasi tabDonasi
 	fmt.Scanln(&blank)
 }
 
+func dummyDataKampanye(daftarKampanye *tabKampanye, jumlahKampanye *int) {
+	
+	daftarKampanye[0].Id = 100
+	daftarKampanye[0].Judul = "Bantuan_Pendidikan_Anak_Yatim"
+	daftarKampanye[0].Kategori = "Pendidikan"
+	daftarKampanye[0].Deskripsi = "Program_bantuan_biaya_sekolah_untuk_anak-anak_yatim_dan_dhuafa"
+	daftarKampanye[0].Target = 5000000
+	daftarKampanye[0].Terkumpul = 2500000
+	daftarKampanye[0].Progress = 50
+	daftarKampanye[0].Status = "aktif"
+
+	daftarKampanye[1].Id = 110
+	daftarKampanye[1].Judul = "Renovasi_Masjid_Al-Ikhlas"
+	daftarKampanye[1].Kategori = "Religi"
+	daftarKampanye[1].Deskripsi = "Perbaikan_atap_dan_lantai_masjid_yang_sudah_rusak"
+	daftarKampanye[1].Target = 10000000
+	daftarKampanye[1].Terkumpul = 7500000
+	daftarKampanye[1].Progress = 75
+	daftarKampanye[1].Status = "aktif"
+
+	daftarKampanye[2].Id = 120
+	daftarKampanye[2].Judul = "Bantuan_Korban_Bencana_Alam"
+	daftarKampanye[2].Kategori = "Bencana"
+	daftarKampanye[2].Deskripsi = "Bantuan_logistik_dan_tempat_tinggal_untuk_korban_banjir"
+	daftarKampanye[2].Target = 20000000
+	daftarKampanye[2].Terkumpul = 15000000
+	daftarKampanye[2].Progress = 75
+	daftarKampanye[2].Status = "aktif"
+
+	daftarKampanye[3].Id = 130
+	daftarKampanye[3].Judul = "Kampus_Bersih_dan_Hijau"
+	daftarKampanye[3].Kategori = "Lingkungan"
+	daftarKampanye[3].Deskripsi = "Program_penanaman_pohon_dan_pengelolaan_sampah_di_kampus"
+	daftarKampanye[3].Target = 3000000
+	daftarKampanye[3].Terkumpul = 3000000
+	daftarKampanye[3].Progress = 100
+	daftarKampanye[3].Status = "selesai"
+
+	daftarKampanye[4].Id = 140
+	daftarKampanye[4].Judul = "Beasiswa_Mahasiswa_Berprestasi"
+	daftarKampanye[4].Kategori = "Pendidikan"
+	daftarKampanye[4].Deskripsi = "Program_beasiswa_untuk_mahasiswa_berprestasi_dari_keluarga_kurang_mampu"
+	daftarKampanye[4].Target = 8000000
+	daftarKampanye[4].Terkumpul = 4000000
+	daftarKampanye[4].Progress = 50
+	daftarKampanye[4].Status = "aktif"
+
+	daftarKampanye[5].Id = 150
+	daftarKampanye[5].Judul = "Posyandu_Sehat_Mandiri"
+	daftarKampanye[5].Kategori = "Kesehatan"
+	daftarKampanye[5].Deskripsi = "Pengadaan_alat_kesehatan_dan_vitamin_untuk_posyandu_desa"
+	daftarKampanye[5].Target = 4500000
+	daftarKampanye[5].Terkumpul = 2250000
+	daftarKampanye[5].Progress = 50
+	daftarKampanye[5].Status = "aktif"
+
+	daftarKampanye[6].Id = 160
+	daftarKampanye[6].Judul = "Gerakan_Literasi_Digital"
+	daftarKampanye[6].Kategori = "Teknologi"
+	daftarKampanye[6].Deskripsi = "Pelatihan_komputer_dan_internet_untuk_masyarakat_pedesaan"
+	daftarKampanye[6].Target = 6000000
+	daftarKampanye[6].Terkumpul = 1800000
+	daftarKampanye[6].Progress = 30
+	daftarKampanye[6].Status = "aktif"
+
+	daftarKampanye[7].Id = 170
+	daftarKampanye[7].Judul = "Pembangunan_Perpustakaan_Desa"
+	daftarKampanye[7].Kategori = "Pendidikan"
+	daftarKampanye[7].Deskripsi = "Membangun_perpustakaan_desa_dengan_koleksi_buku_yang_lengkap"
+	daftarKampanye[7].Target = 12000000
+	daftarKampanye[7].Terkumpul = 9600000
+	daftarKampanye[7].Progress = 80
+	daftarKampanye[7].Status = "aktif"
+
+	daftarKampanye[8].Id = 180
+	daftarKampanye[8].Judul = "Festival_Seni_Budaya_Lokal"
+	daftarKampanye[8].Kategori = "Budaya"
+	daftarKampanye[8].Deskripsi = "Penyelenggaraan_festival_untuk_melestarikan_seni_dan_budaya_daerah"
+	daftarKampanye[8].Target = 7500000
+	daftarKampanye[8].Terkumpul = 5625000
+	daftarKampanye[8].Progress = 75
+	daftarKampanye[8].Status = "aktif"
+
+	daftarKampanye[9].Id = 190
+	daftarKampanye[9].Judul = "Pemberdayaan_UMKM_Perempuan"
+	daftarKampanye[9].Kategori = "Ekonomi"
+	daftarKampanye[9].Deskripsi = "Program_pelatihan_dan_modal_usaha_untuk_ibu-ibu_rumah_tangga"
+	daftarKampanye[9].Target = 9000000
+	daftarKampanye[9].Terkumpul = 2700000
+	daftarKampanye[9].Progress = 30
+	daftarKampanye[9].Status = "aktif"
+
+	*jumlahKampanye = 10
+}
+
+func dummyDataDonasi(daftarDonasi *tabDonasi, jumlahDonasi *int) {
+
+	daftarDonasi[0].KampanyeId = 100
+	daftarDonasi[0].NamaDonatur = "ammar"
+	daftarDonasi[0].Jumlah = 1000000
+
+	daftarDonasi[1].KampanyeId = 110
+	daftarDonasi[1].NamaDonatur = "abrar"
+	daftarDonasi[1].Jumlah = 1500000
+
+	daftarDonasi[2].KampanyeId = 120
+	daftarDonasi[2].NamaDonatur = "annisa"
+	daftarDonasi[2].Jumlah = 2000000
+
+	daftarDonasi[3].KampanyeId = 140
+	daftarDonasi[3].NamaDonatur = "ammar"
+	daftarDonasi[3].Jumlah = 1500000
+
+	daftarDonasi[4].KampanyeId = 150
+	daftarDonasi[4].NamaDonatur = "abrar"
+	daftarDonasi[4].Jumlah = 800000
+
+	daftarDonasi[5].KampanyeId = 160
+	daftarDonasi[5].NamaDonatur = "annisa"
+	daftarDonasi[5].Jumlah = 1200000
+
+	daftarDonasi[6].KampanyeId = 170
+	daftarDonasi[6].NamaDonatur = "ammar"
+	daftarDonasi[6].Jumlah = 900000
+
+	daftarDonasi[7].KampanyeId = 180
+	daftarDonasi[7].NamaDonatur = "abrar"
+	daftarDonasi[7].Jumlah = 700000
+
+	daftarDonasi[8].KampanyeId = 190
+	daftarDonasi[8].NamaDonatur = "annisa"
+	daftarDonasi[8].Jumlah = 2500000
+
+	daftarDonasi[9].KampanyeId = 100
+	daftarDonasi[9].NamaDonatur = "annisa"
+	daftarDonasi[9].Jumlah = 500000
+
+	*jumlahDonasi = 10
+}
+
 func main() {
 	var pilihan int
 	var jumlahPengguna, jumlahKampanye, jumlahDonasi int
@@ -893,21 +1050,25 @@ func main() {
 	var daftarDonasi tabDonasi
 	var penggunaMasuk Pengguna
 
-	daftarPengguna[0] = Pengguna{
-		Email:    "ammar@gmail.com",
-		Username: "ammar",
-		Password: "Ammar1234@",
-		Peran:    "admin",
-	}
+	daftarPengguna[0].Email = "ammar@gmail.com"
+	daftarPengguna[0].Username = "ammar"
+	daftarPengguna[0].Password = "Ammar1234@"
+	daftarPengguna[0].Peran = "admin"
 
-	daftarPengguna[1] = Pengguna{
-		Email:    "ghifari@yahoo.com",
-		Username: "ghifari",
-		Password: "Ghifari1234@",
-		Peran:    "donatur",
-	}
+	daftarPengguna[1].Email = "abrar@yahoo.com"
+	daftarPengguna[1].Username = "abrar"
+	daftarPengguna[1].Password = "Abrar1234@"
+	daftarPengguna[1].Peran = "donatur"
 
-	jumlahPengguna = 2
+	daftarPengguna[2].Email = "annisa@yahoo.com"
+	daftarPengguna[2].Username = "annisa"
+	daftarPengguna[2].Password = "Annisa1234@"
+	daftarPengguna[2].Peran = "donatur"
+
+	jumlahPengguna = 3
+
+	dummyDataKampanye(&daftarKampanye, &jumlahKampanye)
+	dummyDataDonasi(&daftarDonasi, &jumlahDonasi)
 
 	for pilihan != -1 {
 		pilihan = menuUtama(penggunaMasuk)
