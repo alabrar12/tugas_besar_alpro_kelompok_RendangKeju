@@ -518,7 +518,6 @@ func tambahDonasi(daftarKampanye *tabKampanye, daftarDonasi *tabDonasi, pengguna
 				fmt.Print("Jumlah Donasi: ")
 				fmt.Scan(&jumlah)
 
-
 				for i = 0; i < *jumlahDonasi; i++ {
 					if daftarDonasi[i].KampanyeId == kampanyeId {
 						idx = i
@@ -528,7 +527,7 @@ func tambahDonasi(daftarKampanye *tabKampanye, daftarDonasi *tabDonasi, pengguna
 				totalDonasi = daftarKampanye[idx].Terkumpul + jumlah
 
 				if totalDonasi > daftarKampanye[idx].Target {
-					fmt.Printf("Jumlah donasi melebihi target kampanye!, Donasi dikembalikan sebesar Rp %d\n", totalDonasi - daftarKampanye[idx].Target)
+					fmt.Printf("Jumlah donasi melebihi target kampanye!, Donasi dikembalikan sebesar Rp %d\n", totalDonasi-daftarKampanye[idx].Target)
 					totalDonasi = daftarKampanye[idx].Target
 					jumlah = daftarKampanye[idx].Target
 				}
@@ -854,6 +853,7 @@ func prediksiPencapaianTarget(daftarKampanye tabKampanye, daftarDonasi tabDonasi
 	var rataRataDonasi float64
 	var sisaTarget int
 	var estimasiTransaksi float64
+	var blank string
 
 	fmt.Println("   === PREDIKSI PENCAPAIAN TARGET ===")
 
@@ -882,7 +882,7 @@ func prediksiPencapaianTarget(daftarKampanye tabKampanye, daftarDonasi tabDonasi
 			}
 		}
 	}
-	fmt.Println()
+	fmt.Scanln(&blank)
 }
 
 func main() {
