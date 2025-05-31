@@ -738,7 +738,7 @@ func findIdDonasi(daftarDonasi tabDonasi, jumlahDonasi int, pilihanId int, maxId
 			idxArr++
 		}
 	}
-	fmt.Println(idxArr)
+	
 	return arrDonasi
 }
 
